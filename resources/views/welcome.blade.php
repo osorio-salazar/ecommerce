@@ -42,6 +42,7 @@
 
 
   <div id="app">
+
     <Inicio/>
     
     @vite('resources/js/app.js')
@@ -55,3 +56,5 @@
 
 
 </html>
+
+
