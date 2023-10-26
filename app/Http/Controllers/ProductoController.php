@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use GuzzleHttp\Psr7\Message;
 
 class ProductoController extends Controller
 {
@@ -20,25 +21,25 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
+
+
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required',
             'price' => 'required|numeric',
-            'images_product' => 'required', 
         ]);
 
-        $name = $request['images_product']->getClientOriginalName();
-        $location = "img_products";
-        $imagePath = $request['images_product']->move($location, $name);
+       
+
+
 
         $producto = new Producto();
-        $producto->name = $request->input('name');
-        $producto->description = $request->input('description');
-        $producto->price = $request->input('price');
-        $producto->images_product = $imagePath;
+        $producto->name = $validatedData['name'];
+        $producto->description = $validatedData['description'];
+        $producto->price = $validatedData ['price'];
         $producto->save();
 
-        return redirect()->route('productList')->with('success', 'Producto creado exitosamente');
+        return response()->json(['message' => 'Producto creado con éxito'], 201);
     }
 
     public function show(string $id)
