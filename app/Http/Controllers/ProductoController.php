@@ -10,7 +10,7 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        $productos = Producto::all();
+        $productos = Producto::where('state', 1)->get();
         return response()->json($productos);
     }
 
@@ -20,36 +20,37 @@ class ProductoController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'name' => 'required|max:255',
-        'description' => 'required',
-        'price' => 'required|numeric',
-        'stock' => 'required|numeric',
-        'images' => 'required|array', 
-        'images.*' => 'image|mimes:jpeg,png,jpg|max:2048', 
-    ]);
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    $images = [];
-    
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads'), $imageName); 
-            $images[] = $imageName;
+        $images = [];
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('storage'), $imageName);
+                $images[] = $imageName;
+            }
         }
+
+        $producto = new Producto();
+        $producto->name = $validatedData['name'];
+        $producto->description = $validatedData['description'];
+        $producto->stock = $validatedData['stock'];
+        $producto->price = $validatedData['price'];
+        $producto->product_image = implode(',', $images);
+        $producto->state = 1;
+        $producto->save();
+
+        return response()->json(['message' => 'Producto creado con éxito'], 201);
     }
-
-    $producto = new Producto();
-    $producto->name = $validatedData['name'];
-    $producto->description = $validatedData['description'];
-    $producto->stock = $validatedData['stock'];
-    $producto->price = $validatedData['price'];
-    $producto->product_image = implode(',', $images); 
-    $producto->save();
-
-    return response()->json(['message' => 'Producto creado con éxito'], 201);
-}
 
 
     public function show(string $id)
@@ -69,12 +70,14 @@ class ProductoController extends Controller
             'name' => 'required|max:255',
             'description' => 'required',
             'price' => 'required|numeric',
+            'stock' => 'required|numeric',
         ]);
 
         $producto = Producto::find($id);
-        $producto->name = $request->input('name');
-        $producto->description = $request->input('description');
-        $producto->price = $request->input('price');
+        $producto->name = $validatedData['name'];
+        $producto->description =  $validatedData['description'];
+        $producto->price =  $validatedData['price'];
+        $producto->stock = $validatedData['stock'];
         $producto->save();
 
         return response()->json(['message' => 'Producto actualizado con éxito'], 200);

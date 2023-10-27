@@ -36,5 +36,8 @@ Route::get('/admin/product/list', function () {
 
 
 
+
+
+
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
 Route::resource('productos', 'App\Http\Controllers\ProductoController')->names('producto');

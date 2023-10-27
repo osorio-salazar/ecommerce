@@ -1,28 +1,48 @@
 <template>
-  
-  <Navbar/>
+  <Navbar v-if="showNavbar"></Navbar>
 
-  <router-view></router-view> 
-   <div> 
-  <Footer/>   
+  <router-view></router-view>
+  <div>
+    <Footer v-if="showFooter"></Footer>
   </div>
 </template>
   
-  <script>
-    import Navbar from '../components/Navbar.vue'
-    import Footer from './Footer.vue';
+<script>
+import Navbar from './Navbar.vue';
+import Footer from './Footer.vue';
 
-    export default {
-      name: 'App',
-      components:{
-        Navbar,
-        Footer
+
+export default {
+  name: 'App',
+  components: {
+    Navbar,
+    Footer
+
+
+
+
+  },
+  data() {
+    return {
+      showNavbar: true,
+      showFooter: true,
+    };
+  },
+  watch: {
+    $route(to) {
+      if (to.path === '/login' || to.path === '/register' || to.name === 'productEdit') {
+        this.showNavbar = false;
+        this.showFooter = false;
+      } else {
+        this.showNavbar = true;
+        this.showFooter = true;
       }
     }
-  </script>
+  }
+
+}
+</script>
   
   
-  <style>
-  
-  </style>
+<style></style>
   

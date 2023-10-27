@@ -11,7 +11,6 @@
 <router-link to="/products">Products</router-link><br>
 
 <router-link to="/admin/product/create">Crear Producto</router-link><br>
-<router-link to="/admin/product/edit">Editar Producto</router-link><br>
 <router-link to="/admin/product/list">Lista de Productos</router-link><br>
 
 <router-link to="/categorias"

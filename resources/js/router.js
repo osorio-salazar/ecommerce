@@ -7,6 +7,7 @@ import ProductComponent from '../js/components/ProductComponent.vue'
 import ProductCreatePage from '../js/components/admin/product/ProductCreatePage.vue'
 import ProductEditPage from '../js/components/admin/product/ProductEditPage.vue'
 import ProductListPage from '../js/components/admin/product/ProductListPage.vue'
+import RegisterComponent from '../js/components/auth/RegisterComponent.vue'
 
 const routes = [
   {
@@ -14,6 +15,13 @@ const routes = [
     name: 'Inicio',
     component: Inicio
   }, // store
+  {
+    path: '/register',
+    name: 'registerComponent',
+    component: RegisterComponent
+
+
+  },
   {
     path: '/products',
     name: 'e-products',
