@@ -1,7 +1,7 @@
 
 
 <template>
-  <div class="bg-gray-900 text-gray-100 py-3.5 px-6 shadow md:flex justify-between items-center" >
+  <div class="bg-gray-900 text-gray-100 py-3.5 px-6 shadow md:flex justify-between items-center">
 
 
     <div class="flex items-center">
@@ -31,19 +31,23 @@
 
 
     <ul class="md:flex md:items-center md:px-0 px-3 md:pb-0 pb-10 md:static absolute 
-    bg-gray-900 md:w-auto w-full top-14 duration-700 ease-in" :class="[openNav ? 'left-0 header-open' : 'top-[-40%]']" >
+    bg-gray-900 md:w-auto w-full top-14 duration-700 ease-in" :class="[openNav ? 'left-0 header-open' : 'top-[-40%]']">
       <li class="md:mx-4 md:my-0 my-6" v-for="link in Links">
         <a :href="link.link" class="text-xl hover:text-blue-500">{{ link.name }}</a>
       </li>
 
-      <Button>
-
-        Iniciar Sesion
-      </Button>
+      <router-link to="/login">
+        <Button>
+          Iniciar Sesion
+        </Button>
+      </router-link>
       <span class="mx-2"></span>
-      <Button>
-        Registrarse
-      </Button>
+      <router-link to="/register">
+        <Button>
+          Registrarse
+        </Button>
+      </router-link>
+
 
 
     </ul>
@@ -69,8 +73,8 @@ export default {
     const openNav = ref(false);
 
     let Links = [
-      { name: 'Productos', link: '#' },
-      { name: 'Categorias', link: '#' },
+      { name: 'Productos', link: '/products' },
+      { name: 'Categorias', link: '/categorias' },
 
     ]
 

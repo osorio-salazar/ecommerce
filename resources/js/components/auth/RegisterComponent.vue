@@ -32,22 +32,23 @@
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form class="space-y-6" action="#" method="POST">
                 <div>
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nombres</label>
+                    <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nombres</label>
                     <div class="mt-2">
-                        <input id="email" name="name" type="text" required=""
+                        <input id="name" name="name" type="text" required=""
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
                 <div>
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Apellidos</label>
+                    <label for="" class="block text-sm font-medium leading-6 text-gray-900">Apellidos</label>
                     <div class="mt-2">
-                        <input id="email" name="last" type="text" required=""
+                        <input id="last" name="last" type="text" required=""
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
                 <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                     <div class="mt-2">
+
                         <input id="email" name="email" type="email" autocomplete="email" required=""
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
@@ -75,13 +76,54 @@
 
         </div>
     </div>
+    <div></div>
 </template>
   
 
-<script >
-export default {
 
-
+<style>
+.cuadrado {
+    width: 150px;
+    /* Ancho de 150 píxeles */
+    height: 150px;
+    /* Alto de 150 píxeles */
+    background: red;
+    /* Fondo de color rojo */
+    border: 1px solid #000;
+    /* Borde color negro y de 1 píxel de grosor */
 }
+</style>
+<script>
+import axios from 'axios';
 
+export default {
+    data() {
+        return {
+            name: '',
+            last: '',
+            email: '',
+            password: '',
+            errors: [],
+        };
+    },
+    methods: {
+        register() {
+            axios.post('/register', {
+                name: this.name,
+                last: this.last,
+                email: this.email,
+                password: this.password,
+            })
+                .then(response => {
+                    // Handle success response
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    // Handle error response
+                    console.log(error.response.data.errors);
+                    this.errors = error.response.data.errors;
+                });
+        },
+    },
+};
 </script>
