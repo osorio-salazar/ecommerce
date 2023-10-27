@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 
-import  Inicio from '../js/components/InicioComponent.vue'
+import Inicio from '../js/components/InicioComponent.vue'
 import ProductComponent from '../js/components/ProductComponent.vue'
 // rutas crud admin productos
 import ProductCreatePage from '../js/components/admin/product/ProductCreatePage.vue'
@@ -10,35 +10,35 @@ import ProductListPage from '../js/components/admin/product/ProductListPage.vue'
 
 const routes = [
   {
-   path: '/',
-   name: 'Inicio',
-   component: Inicio
+    path: '/',
+    name: 'Inicio',
+    component: Inicio
   }, // store
   {
-   path: '/products',
-   name: 'e-products',
-   component: ProductComponent
+    path: '/products',
+    name: 'e-products',
+    component: ProductComponent
   },
   { // CRUD admin products
-   path: '/admin/product/create',
-   name: 'productCreate',
-   component: ProductCreatePage
+    path: '/admin/product/create',
+    name: 'productCreate',
+    component: ProductCreatePage
   },
   {
-   path: '/admin/product/edit',
-   name: 'productEdit',
-   component: ProductEditPage
+    path: '/admin/product/edit/:id',
+    name: 'productEdit',
+    component: ProductEditPage
   },
   {
-   path: '/admin/product/list',
-   name: 'productList',
-   component: ProductListPage
+    path: '/admin/product/list',
+    name: 'productList',
+    component: ProductListPage
   },
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
-  })
+  history: createWebHistory(),
+  routes
+})
 
 export default router;

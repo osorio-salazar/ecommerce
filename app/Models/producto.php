@@ -9,18 +9,19 @@ class Producto extends Model
 {
     use HasFactory;
 
-    public $table ="producto";
+    public $table ="products";
     protected $fillable = [
         'name',	
         'description',
-        'images_product',	
+        'product_image',	
         'price',
-        'categoria_id'
+        'category_id',
+        'stock'
         
     ];
 
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class, 'categoria_id');
+        return $this->belongsTo(Categoria::class, 'category_id');
     }
 }

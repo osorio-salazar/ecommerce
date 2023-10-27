@@ -20,23 +20,37 @@ class ProductoController extends Controller
     }
 
     public function store(Request $request)
-    {
+{
+    $validatedData = $request->validate([
+        'name' => 'required|max:255',
+        'description' => 'required',
+        'price' => 'required|numeric',
+        'stock' => 'required|numeric',
+        'images' => 'required|array', 
+        'images.*' => 'image|mimes:jpeg,png,jpg|max:2048', 
+    ]);
 
-
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'required',
-            'price' => 'required|numeric',
-        ]);
-
-        $producto = new Producto();
-        $producto->name = $validatedData['name'];
-        $producto->description = $validatedData['description'];
-        $producto->price = $validatedData ['price'];
-        $producto->save();
-
-        return response()->json(['message' => 'Producto creado con éxito'], 201);
+    $images = [];
+    
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads'), $imageName); 
+            $images[] = $imageName;
+        }
     }
+
+    $producto = new Producto();
+    $producto->name = $validatedData['name'];
+    $producto->description = $validatedData['description'];
+    $producto->stock = $validatedData['stock'];
+    $producto->price = $validatedData['price'];
+    $producto->product_image = implode(',', $images); 
+    $producto->save();
+
+    return response()->json(['message' => 'Producto creado con éxito'], 201);
+}
+
 
     public function show(string $id)
     {
@@ -46,7 +60,7 @@ class ProductoController extends Controller
     public function edit(string $id)
     {
         $producto = Producto::find($id);
-        return view('producto.edit', compact('producto'));
+        return response()->json($producto);
     }
 
     public function update(Request $request, string $id)

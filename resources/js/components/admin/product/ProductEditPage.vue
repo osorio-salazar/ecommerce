@@ -2,15 +2,22 @@
     <div style="padding: 40px;">
         <h1 class="text-xl font-bold text-gray-900 sm:text-3xl">Editar Producto</h1>
 
-        <form @submit.prevent="updateProduct">
+        <form @submit.prevent="">
             <label for="name">Nombre</label><br>
-            <input style="border: 1px solid #000" type="text" id="name" v-model="product.name" name="name" required /><br /><br>
+            <input style="border: 1px solid #000" type="text" id="name" name="name" required
+                v-model="producto.name" /><br /><br>
 
             <label for="description">Descripción</label><br>
-            <input style="border: 1px solid #000" type="text" id="description" v-model="product.description" name="description" required /><br /><br>
+            <input style="border: 1px solid #000" type="text" id="description" name="description" required
+                v-model="producto.description" /><br /><br>
 
             <label for="price">Precio</label><br>
-            <input style="border: 1px solid #000" type="text" id="price" v-model="product.price" name="price" required /><br /><br>
+            <input style="border: 1px solid #000" type="text" id="price" name="price" required
+                v-model="producto.price" /><br /><br>
+
+            <label for="price">Stock</label><br>
+            <input style="border: 1px solid #000" type="text" id="stock" name="stock" required
+                v-model="producto.stock" /><br /><br>
 
             <button type="submit" style="background: rgb(97, 205, 97); padding: 8px;">Actualizar</button>
         </form>
@@ -23,38 +30,40 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            product: {
+            producto: {
                 name: '',
                 description: '',
                 price: '',
-            },
+                stock: ''
+            }
         };
     },
     created() {
-        this.fetchProduct();
+        this.getProduct();
     },
     methods: {
-        fetchProduct() {
-            const productId = this.$route.params.id; // Obtener el ID del producto desde la ruta
-            axios.get(`/productos/${productId}`)
+        getProduct() {
+            const productId = this.$route.params.id;
+            axios.get(`/productos/${productId}/edit`)
                 .then(response => {
-                    this.product = response.data;
+                    this.producto = response.data;
+                    console.log(this.producto);
                 })
                 .catch(error => {
-                    console.error(error);
+                    console.log(error);
                 });
         },
+
         updateProduct() {
-            const productId = this.$route.params.id; // Obtener el ID del producto desde la ruta
-            axios.put(`/productos/${productId}`, this.product)
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
+
+
+
+        }
+
+
     },
+
+
+
 };
 </script>
-  
