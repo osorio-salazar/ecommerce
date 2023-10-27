@@ -30,34 +30,25 @@ import axios from 'axios'
 export default {
     data() {
         return {
-
             name: '',
             description: '',
             price: '',
-            
-
         };
     },
     methods: {
         saveProduct() {
-            axios.post('/productos',
-                {
-                    name: this.name,
-                    description: this.description,
-                    price: this.price,
-                   
-
-                }
-            )
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            axios.post('/productos', {
+                name: this.name,
+                description: this.description,
+                price: this.price,
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
         }
-
-
     },
 };
 </script>
