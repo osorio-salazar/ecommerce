@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
+Auth::routes();
 Route::resource('productos', 'App\Http\Controllers\ProductoController')->names('producto');
 
 
@@ -25,7 +26,3 @@ Route::resource('productos', 'App\Http\Controllers\ProductoController')->names('
 Route::get('/{any}', function () {
     return view('layouts.app');
 })->where('any', '.*');
-
-
-
-Auth::routes();
