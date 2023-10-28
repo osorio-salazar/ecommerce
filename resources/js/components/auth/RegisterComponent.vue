@@ -30,7 +30,7 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-6" action="#" method="POST">
+            <form class="space-y-6" method="POST" v-on:submit.prevent="register">
                 <div>
                     <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nombres</label>
                     <div class="mt-2">
@@ -81,18 +81,7 @@
   
 
 
-<style>
-.cuadrado {
-    width: 150px;
-    /* Ancho de 150 píxeles */
-    height: 150px;
-    /* Alto de 150 píxeles */
-    background: red;
-    /* Fondo de color rojo */
-    border: 1px solid #000;
-    /* Borde color negro y de 1 píxel de grosor */
-}
-</style>
+
 <script>
 import axios from 'axios';
 

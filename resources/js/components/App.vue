@@ -1,10 +1,21 @@
 <template>
-  <Navbar v-if="showNavbar"></Navbar>
 
-  <router-view></router-view>
-  <div>
+  <header>
+    <Navbar v-if="showNavbar"></Navbar>
+  </header>
+ 
+
+  <body>
+    <router-view></router-view>
+  </body>
+
+
+
+  <footer>
     <Footer v-if="showFooter"></Footer>
-  </div>
+  </footer>
+  
+
 </template>
   
 <script>

@@ -64,7 +64,6 @@ export default {
                 });
         },
         deleteImage(index) {
-            // Elimina la imagen del arreglo producto.product_image
             this.producto.product_image = this.producto.product_image.split(',');
             this.producto.product_image.splice(index, 1);
             this.producto.product_image = this.producto.product_image.join(',');
@@ -76,7 +75,7 @@ export default {
                      console.log()
                  })
                  .catch(error => {
-                     // Maneja errores
+                    
              });
         },
 

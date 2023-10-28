@@ -32,9 +32,19 @@
 
     <ul class="md:flex md:items-center md:px-0 px-3 md:pb-0 pb-10 md:static absolute 
     bg-gray-900 md:w-auto w-full top-14 duration-700 ease-in" :class="[openNav ? 'left-0 header-open' : 'top-[-40%]']">
-      <li class="md:mx-4 md:my-0 my-6" v-for="link in Links">
-        <a :href="link.link" class="text-xl hover:text-blue-500">{{ link.name }}</a>
+
+  <router-link to="/products">
+    <li class="md:mx-4 md:my-0 my-6" >
+        <a class="text-xl hover:text-blue-500">Productos</a>
       </li>
+  </router-link>
+     
+      <router-link to="/categorias">
+        <li class="md:mx-4 md:my-0 my-6">
+        <a  class="text-xl hover:text-blue-500">Categorias</a>
+      </li>
+      </router-link>
+      
 
       <router-link to="/login">
         <Button>

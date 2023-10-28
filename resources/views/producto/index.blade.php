@@ -1,7 +1,7 @@
-@extends('welcome')
+@extends('layouts.app')
 
 @section('content')
- <div id="app">
+
         <product-list-page></product-list-page>
-    </div> 
+
 @endsection

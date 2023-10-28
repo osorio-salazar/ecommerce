@@ -9,6 +9,7 @@ import ProductEditPage from '../js/components/admin/product/ProductEditPage.vue'
 import ProductListPage from '../js/components/admin/product/ProductListPage.vue'
 import RegisterComponent from '../js/components/auth/RegisterComponent.vue'
 import LoginComponent from '../js/components/auth/LoginComponent.vue'
+import CategoryComponent from '../js/components/CategoryComponent.vue'
 
 
 const routes = [
@@ -17,6 +18,13 @@ const routes = [
     name: 'Inicio',
     component: Inicio
   }, // store
+  {
+    path: '/categorias',
+    name: 'categoriaComponent',
+    component: CategoryComponent
+  }, // store
+
+
   {
     path: '/login',
     name: 'loginComponent',
@@ -55,7 +63,8 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  mode: "history"
 })
 
 export default router;

@@ -10,7 +10,8 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        $productos = Producto::where('state', 1)->get();
+    
+        $productos = Producto::with('categoria')->where('state', 1)->get();
         return response()->json($productos);
     }
 

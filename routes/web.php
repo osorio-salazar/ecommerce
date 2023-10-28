@@ -4,7 +4,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
- 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,35 +16,16 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+
 Route::resource('productos', 'App\Http\Controllers\ProductoController')->names('producto');
 
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{any}', function () {
+    return view('layouts.app');
+})->where('any', '.*');
 
-Route::get('/products', function () {
-    return view('producto.index');
-});
 
-Route::get('/admin/product/create', function () {
-    return view('producto.create');
-});
-
-Route::get('/admin/product/edit/{id}', function ($id) {
-    return view('producto.edit');
-});
-Route::get('/admin/product/list', function () {
-    return view('producto.index');
-});
-
-Route::get('/register', function () {
-    return view('');
-});
 
 Auth::routes();
-
-
