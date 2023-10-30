@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use GuzzleHttp\Psr7\Message;
-
+use Illuminate\Support\Facades\Auth;
 class ProductoController extends Controller
 {
     public function index()
@@ -19,6 +19,7 @@ class ProductoController extends Controller
     {
         return view('producto.create');
     }
+
 
     public function store(Request $request)
     {

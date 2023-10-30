@@ -2,5 +2,6 @@
 
 
 @section('content')
-<loginComponent/>
+<loginComponent />
+Auth::user()
 @endsection

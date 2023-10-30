@@ -1,9 +1,8 @@
 <template>
-
   <header>
     <Navbar v-if="showNavbar"></Navbar>
   </header>
- 
+
 
   <body>
     <router-view></router-view>
@@ -14,8 +13,6 @@
   <footer>
     <Footer v-if="showFooter"></Footer>
   </footer>
-  
-
 </template>
   
 <script>
@@ -41,7 +38,7 @@ export default {
   },
   watch: {
     $route(to) {
-      if (to.path === '/login' || to.path === '/register' || to.name === 'productEdit') {
+      if (to.path === '/login' || to.path === '/register' || to.name === 'productEdit' || to.name === 'dashboard' || to.path.startsWith('/dashboard')) {
         this.showNavbar = false;
         this.showFooter = false;
       } else {

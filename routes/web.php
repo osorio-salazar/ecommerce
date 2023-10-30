@@ -18,9 +18,14 @@ use Illuminate\Support\Facades\Auth;
 
 
 Auth::routes();
-Route::resource('productos', 'App\Http\Controllers\ProductoController')->names('producto');
 
 
+
+Route::resource('productos', 'App\Http\Controllers\ProductoController');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 
 Route::get('/{any}', function () {
