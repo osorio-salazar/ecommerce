@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-
+Route::get("/getInfoUser", [UserController::class,"getInfoUser"]);
 
 Route::resource('productos', 'App\Http\Controllers\ProductoController');
 

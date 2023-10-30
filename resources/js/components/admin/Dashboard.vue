@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script type="module">
+<script>
 import axios from 'axios';
 import navDashboard from './navDashboard.vue';
 import ProductList from './product/ProductListPage.vue'
@@ -21,25 +21,9 @@ export default {
     navDashboard,
     ProductList
   },
-  data() {
-    return {
-      user: {}
-    }
-  },
-  created() {
-    this.getUserInfo();
-  },
-  methods: {
-    getUserInfo() {
-      axios.get('/api/user')
-        .then(response => {
-          console.log(response.data);  // Aquí está la información del usuario logueado
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  }
+
+
+  
 }
 </script>
 

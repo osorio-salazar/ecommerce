@@ -87,6 +87,21 @@ class ProductoController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $producto = Producto::find($id);
+
+      
+        $images = explode(',', $producto->product_image);
+        foreach ($images as $image) {
+            $imagePath = public_path('storage/' . $image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+   
+        $producto->state = 0;
+        $producto->update();
+
+        return response()->json(['message'=> 'Eliminado con exito'],200);
     }
 }

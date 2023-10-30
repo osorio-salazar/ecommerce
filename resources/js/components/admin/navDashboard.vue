@@ -15,10 +15,9 @@
 
 
         <li>
-          <router-link :to="{ path: '/dashboard/product/create' }"
-            class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+          <a class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
             Categorias
-          </router-link>
+          </a>
         </li>
 
         <li>
@@ -80,12 +79,39 @@
 
         <div>
           <p class="text-xs">
-            <strong class="block font-medium">Eric Frusciante</strong>
+            <strong class="block font-medium">{{ user.name }}</strong>
 
-            <span> eric@frusciante.com </span>
+            <span> {{ user.email }}</span>
           </p>
         </div>
       </a>
     </div>
   </div>
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      user: '',
+
+    }
+  },
+  created: function () {
+    this.getUserInfo();
+  },
+  methods: {
+    getUserInfo() {
+      axios.get('/getInfoUser')
+        .then(respuesta => {
+          this.user = respuesta.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+}
+</script>
