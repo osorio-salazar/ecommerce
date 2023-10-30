@@ -7,6 +7,11 @@ import ProductComponent from '../js/components/ProductComponent.vue'
 import ProductCreatePage from '../js/components/admin/product/ProductCreatePage.vue'
 import ProductEditPage from '../js/components/admin/product/ProductEditPage.vue'
 import ProductListPage from '../js/components/admin/product/ProductListPage.vue'
+
+import CategoryCreatePage from '../js/components/admin/category/CategoryCreatePage.vue'
+import CategoryEditPage from '../js/components/admin/category/CategoryEditPage.vue'
+import CategoryListPage from '../js/components/admin/category/CategoryListPage.vue'
+
 import RegisterComponent from '../js/components/auth/RegisterComponent.vue'
 import LoginComponent from '../js/components/auth/LoginComponent.vue'
 import CategoryComponent from '../js/components/CategoryComponent.vue'
@@ -58,6 +63,21 @@ const routes = [
     path: '/admin/product/list',
     name: 'productList',
     component: ProductListPage
+  },
+  { // CRUD admin categories
+    path: '/admin/category/create',
+    name: 'categoryCreate',
+    component: CategoryCreatePage
+  },
+  {
+    path: '/admin/category/edit/:id',
+    name: 'categoriaEdit',
+    component: CategoryEditPage
+  },
+  {
+    path: '/admin/category/list',
+    name: 'categoryList',
+    component: CategoryListPage
   },
 ];
 

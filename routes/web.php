@@ -18,8 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::resource('productos', 'App\Http\Controllers\ProductoController')->names('producto');
-
-
+Route::resource('categorias', 'App\Http\Controllers\CategoriaController')->names('categoria');
 
 
 Route::get('/{any}', function () {
