@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +19,19 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-Route::resource('productos', 'App\Http\Controllers\ProductoController')->names('producto');
+
 Route::resource('categorias', 'App\Http\Controllers\CategoriaController')->names('categoria');
 
+Auth::routes();
+
+Route::get("/getInfoUser", [UserController::class,"getInfoUser"]);
+
+Route::resource('productos', 'App\Http\Controllers\ProductoController');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 Route::get('/{any}', function () {
     return view('layouts.app');
 })->where('any', '.*');
-
-
-
-Auth::routes();

@@ -15,6 +15,7 @@ import CategoryListPage from '../js/components/admin/category/CategoryListPage.v
 import RegisterComponent from '../js/components/auth/RegisterComponent.vue'
 import LoginComponent from '../js/components/auth/LoginComponent.vue'
 import CategoryComponent from '../js/components/CategoryComponent.vue'
+import Dashboard from '../js/components/admin/Dashboard.vue'
 
 
 const routes = [
@@ -22,6 +23,29 @@ const routes = [
     path: '/',
     name: 'Inicio',
     component: Inicio
+  }, // store
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard,
+    children: [
+      {
+        path: 'product/list',
+        component: ProductListPage,
+        meta: { requiresAuth: true }
+      },
+
+      {
+        path: 'product/create',
+        component: ProductCreatePage,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/product/edit/:id',
+        component: ProductCreatePage,
+        meta: { requiresAuth: true }
+      }
+    ]
   }, // store
   {
     path: '/categorias',
@@ -50,17 +74,17 @@ const routes = [
     component: ProductComponent
   },
   { // CRUD admin products
-    path: '/admin/product/create',
+    path: '/product/create',
     name: 'productCreate',
     component: ProductCreatePage
   },
   {
-    path: '/admin/product/edit/:id',
+    path: '/product/edit/:id',
     name: 'productEdit',
     component: ProductEditPage
   },
   {
-    path: '/admin/product/list',
+    path: '/product/list',
     name: 'productList',
     component: ProductListPage
   },
@@ -81,10 +105,16 @@ const routes = [
   },
 ];
 
+
+
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
   mode: "history"
 })
+
+
+
 
 export default router;

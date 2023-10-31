@@ -184,7 +184,7 @@
                             <h3 class="mt-4 text-lg font-medium text-gray-900">{{ product.name }}</h3>
 
                             <p class="mt-1.5 text-sm text-gray-700">{{ product.price }}</p>
-                            <p class="mt-1.5 text-sm text-gray-700">{{ product.categoria.name}}</p>
+                            <p class="mt-1.5 text-sm text-gray-700"></p>
 
 
                             <Button

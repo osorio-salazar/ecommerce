@@ -28,12 +28,17 @@
                   class="bg-emerald-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1">Editar</router-link>
 
 
-                <button class="bg-red-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1">Eliminar</button>
+                <button class="bg-red-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1"
+                  @click="deleteProduct(product.id)">Eliminar</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
+    <div class="mt-4">
+      <router-link :to="{ path: '/dashboard/product/create' }"
+        class="bg-blue-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1">Crear Producto</router-link>
     </div>
   </div>
 </template>
@@ -56,12 +61,23 @@ export default {
 
       axios.get('/productos')
         .then(response => {
-
-          console.log(this.products = response.data);
+          this.products = response.data
         })
         .catch(error => {
           console.error(error);
         });
+    },
+    deleteProduct(id) {
+      if (confirm("Estas seguro que quieres eliminar este producto?")) {
+        axios.delete(`/productos/${id}`)
+          .then(response => {
+            console.log(response.data);
+            this.fetchProducts();
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
     },
   },
 };
