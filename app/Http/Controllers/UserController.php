@@ -15,17 +15,12 @@ class UserController extends Controller
 {
     public function getInfoUser()
     {
-        $users = \Illuminate\Support\Facades\DB::table("sessions")->select("user_id")->get();
-        $users  = json_decode(json_encode($users), true);
-        Log::info($users);
+        $user = Auth::user(); // Obtén al usuario autenticado
 
-
-        foreach ($users as $user) {
-
-            $usuario = \App\Models\User::find($user);
-
-            return response()->json($usuario);
-            //return $user;
+        if ($user) {
+            return response()->json($user);
+        } else {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
     }
 }

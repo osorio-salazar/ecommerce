@@ -41,12 +41,29 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: '/product/edit/:id',
-        component: ProductCreatePage,
+
+        path: 'product/edit/:id',
+        name: 'productEdit',
+        component: ProductEditPage,
         meta: { requiresAuth: true }
-      }
+      },
+      { // CRUD admin categories
+        path: 'category/create',
+        name: 'categoryCreate',
+        component: CategoryCreatePage
+      },
+      {
+        path: 'category/edit/:id',
+        name: 'categoriaEdit',
+        component: CategoryEditPage
+      },
+      {
+        path: 'category/list',
+        name: 'categoryList',
+        component: CategoryListPage
+      },
     ]
-  }, // store
+  }, 
   {
     path: '/categorias',
     name: 'categoriaComponent',
@@ -73,36 +90,7 @@ const routes = [
     name: 'e-products',
     component: ProductComponent
   },
-  { // CRUD admin products
-    path: '/product/create',
-    name: 'productCreate',
-    component: ProductCreatePage
-  },
-  {
-    path: '/product/edit/:id',
-    name: 'productEdit',
-    component: ProductEditPage
-  },
-  {
-    path: '/product/list',
-    name: 'productList',
-    component: ProductListPage
-  },
-  { // CRUD admin categories
-    path: '/admin/category/create',
-    name: 'categoryCreate',
-    component: CategoryCreatePage
-  },
-  {
-    path: '/admin/category/edit/:id',
-    name: 'categoriaEdit',
-    component: CategoryEditPage
-  },
-  {
-    path: '/admin/category/list',
-    name: 'categoryList',
-    component: CategoryListPage
-  },
+
 ];
 
 

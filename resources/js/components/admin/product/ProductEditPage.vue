@@ -17,8 +17,8 @@
                 <input type="file" id="images" name="images[]" multiple accept="image/*" @change="onFileChange" /><br /><br>
 
                 <div>
-                    <img v-for="(product_image, index) in producto.product_image.split(',')" :key="index"
-                        :src="'/storage/' + product_image" alt="product image"
+                    <img v-for="(product_image, index) in (producto && producto.product_image ? producto.product_image.split(',') : [])"
+                        :key="index" :src="'/storage/' + product_image" alt="product image"
                         style="max-width: 200px; margin-right: 10px;">
                     <a @click="deleteImage(index)">Eliminar</a>
                 </div>
@@ -62,21 +62,6 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
-        },
-        deleteImage(index) {
-            this.producto.product_image = this.producto.product_image.split(',');
-            this.producto.product_image.splice(index, 1);
-            this.producto.product_image = this.producto.product_image.join(',');
-
-          
-             axios.delete('/storage', { image: this.producto.product_image[index] })
-                 .then(response => {
-
-                     console.log()
-                 })
-                 .catch(error => {
-                    
-             });
         },
 
         updateProduct() {
