@@ -13,4 +13,4 @@ const app = createApp(App);
 app.use(router);
 app.component('nav-component', navComponent)
 app.mount("#app");
-app.mount("#nav")
+

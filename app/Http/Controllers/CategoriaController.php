@@ -54,9 +54,7 @@ class CategoriaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'required',
-            'category_image' => 'image|nullable', // Validación para la imagen
+             // Validación para la imagen
         ]);        
 
         $categoria = Categoria::find($id);

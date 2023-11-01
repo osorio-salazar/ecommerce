@@ -4,10 +4,12 @@
 
         <form @submit.prevent="updateCategoria" enctype="multipart/form-data">
             <label for="name">Nombre</label><br>
-            <input required style="border: 1px solid #000" type="text" id="name" name="name" v-model="categoria.name"/><br /><br>
+            <input required style="border: 1px solid #000" type="text" id="name" name="name"
+                v-model="categoria.name" /><br /><br>
 
             <label for="description">Descripción</label><br>
-            <input required style="border: 1px solid #000" type="text" id="description" name="description" v-model="categoria.description" /><br><br>
+            <input required style="border: 1px solid #000" type="text" id="description" name="description"
+                v-model="categoria.description" /><br><br>
 
             <label for="category_image">Imagen de Categoría</label><br>
             <input type="file" id="category_image" name="category_image" accept="image/*" @change="onFileChange" /><br><br>
@@ -27,9 +29,6 @@ export default {
     data() {
         return {
             categoria: {
-                name: '',
-                description: '',
-                category_image: null,
             },
         };
     },
@@ -42,6 +41,7 @@ export default {
             axios.get(`/categorias/${categoriaId}/edit`)
                 .then(response => {
                     this.categoria = response.data;
+                    console.log(this.categoria);
                 })
                 .catch(error => {
                     console.log(error);
@@ -53,24 +53,21 @@ export default {
         updateCategoria() {
             const categoriaId = this.$route.params.id;
 
-            const formData = new FormData();
-            formData.append('name', this.categoria.name);
-            formData.append('description', this.categoria.description);
-            // formData.append('category_image', this.categoria.category_image);
+            const dataCategory = {
+                name: this.categoria.name,
+                description: this.categoria.description,
+            };
 
-            if (this.categoria.category_image) {
-                formData.append('category_image', this.categoria.category_image);
-            }
 
-            axios.put(`/categorias/${categoriaId}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+          
+
+            axios.put(`/categorias/${categoriaId}`, dataCategory, {
             })
                 .then(response => {
                     // this.data = response.data;
                     alert('Categoría actualizada exitosamente');
-                    this.$router.push('/admin/category/list');
+
+                    this.$router.push('/dashboard/category/list');
                 })
                 .catch(error => {
                     console.log(error);

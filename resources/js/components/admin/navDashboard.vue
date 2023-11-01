@@ -6,7 +6,7 @@
       </span>
 
       <ul class="mt-6 space-y-1">
-        <li>
+        <li v-if="rolId == 1">
           <router-link :to="{ path: '/dashboard/product/list' }"
             class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
             Productos
@@ -14,16 +14,23 @@
         </li>
 
 
-        <li>
-          <router-link :to="{ path: '/dashboard/category/list' }" class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+        <li v-if="rolId == 1">
+          <router-link :to="{ path: '/dashboard/category/list' }"
+            class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
             Categorias
           </router-link>
         </li>
 
-        <li>
+        <li v-if="rolId == 1">
           <a href=""
             class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
             Ventas
+          </a>
+        </li>
+        <li v-if="rolId !== 1">
+          <a href=""
+            class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+            Mis compras
           </a>
         </li>
 
@@ -58,12 +65,11 @@
               </li>
 
               <li>
-                <form action="/logout">
-                  <button type="submit"
-                    class="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700">
-                    Logout
-                  </button>
-                </form>
+                <button type="button"
+                  class="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
+                  @click="logout">
+                  Logout
+                </button>
               </li>
             </ul>
           </details>
@@ -79,9 +85,9 @@
 
         <div>
           <p class="text-xs">
-            <strong class="block font-medium">{{ user.name }}</strong>
+            <strong class="block font-medium">{{ user.user.name }}</strong>
 
-            <span> {{ user.email }}</span>
+            <span> {{ user.user.email }}</span>
           </p>
         </div>
       </a>
@@ -91,12 +97,16 @@
 
 <script>
 import axios from 'axios';
-
 export default {
   data() {
     return {
-      user: '',
-
+      user: {
+        user: {
+          name: '',
+          email: '',
+        }
+      },
+      rolId: null // Declaración de rolId en el objeto data
     }
   },
   created: function () {
@@ -107,6 +117,18 @@ export default {
       axios.get('/getInfoUser')
         .then(respuesta => {
           this.user = respuesta.data;
+          this.rolId = respuesta.data.role_id; // Asignación de valor a rolId
+          console.log(this.rolId)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    logout() {
+      axios.post('/logout')
+        .then(() => {
+
+          window.location.href = '/';
         })
         .catch(error => {
           console.log(error);

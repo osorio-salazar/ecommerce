@@ -8,19 +8,6 @@
 
 <!-- el boton de categoria de be tener un codicional para que solo lo vea los roles permitidos -->
 
-<router-link to="/products">Products</router-link><br>
-
-<router-link to="/admin/product/create">Crear Producto</router-link><br>
-<router-link to="/admin/product/list">Lista de Productos</router-link><br>
-
-<h1 class="text-2xl font-bold text-gray-900">admin Categorias</h1>
-<router-link to="/admin/category/create">Crear Categoria</router-link><br>
-<router-link to="/admin/category/list">Lista Categorias</router-link><br>
-
-<router-link to="/categorias"
-class="inline-block relative left-3/4 bottom-7  rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]"
->Categorias</router-link>
-
 
 
         <div class="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
