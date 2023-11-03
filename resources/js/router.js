@@ -7,6 +7,7 @@ import ProductComponent from '../js/components/admin/product/ProductComponent.vu
 import ProductCreatePage from '../js/components/admin/product/ProductCreatePage.vue'
 import ProductEditPage from '../js/components/admin/product/ProductEditPage.vue'
 import ProductListPage from '../js/components/admin/product/ProductListPage.vue'
+import ProductDetails from '../js/components/admin/product/ProductDetails.vue'
 
 
 import CategoryCreatePage from '../js/components/admin/category/CategoryCreatePage.vue'
@@ -92,6 +93,14 @@ const routes = [
     path: '/products',
     name: 'e-products',
     component: ProductComponent,
+    children: [
+      {
+        path: ':name',
+        name: 'ProductDetails',
+        component: ProductDetails,
+        props: true
+      }
+    ]
   },
 
 ];
