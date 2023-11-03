@@ -93,15 +93,13 @@ const routes = [
     path: '/products',
     name: 'e-products',
     component: ProductComponent,
-    children: [
-      {
-        path: ':name',
-        name: 'ProductDetails',
-        component: ProductDetails,
-        props: true
-      }
-    ]
   },
+  {
+    path: '/products/:name',
+    name: 'ProductDetails',
+    component: ProductDetails,
+    props: true
+  }
 
 ];
 
