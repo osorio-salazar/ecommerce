@@ -4,20 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
-use GuzzleHttp\Psr7\Message;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Categoria;
+
 class ProductoController extends Controller
 {
     public function index()
     {
-    
+
         $productos = Producto::with('categoria')->where('state', 1)->get();
         return response()->json($productos);
     }
 
     public function create()
     {
-        return view('producto.create');
+        $categorias = Categoria::all();
+        return view('producto.create', compact('categorias'));
     }
 
 
@@ -27,6 +29,7 @@ class ProductoController extends Controller
             'name' => 'required|max:255',
             'description' => 'required',
             'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
             'stock' => 'required|numeric',
             'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
@@ -35,10 +38,12 @@ class ProductoController extends Controller
         $images = [];
 
         if ($request->hasFile('images')) {
+            $i = 1;
             foreach ($request->file('images') as $image) {
-                $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('storage'), $imageName);
+                $imageName = $validatedData['name'] . $i . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/productos'), $imageName);
                 $images[] = $imageName;
+                $i++;
             }
         }
 
@@ -47,6 +52,7 @@ class ProductoController extends Controller
         $producto->description = $validatedData['description'];
         $producto->stock = $validatedData['stock'];
         $producto->price = $validatedData['price'];
+        $producto->category_id = $validatedData['category_id'];
         $producto->product_image = implode(',', $images);
         $producto->state = 1;
         $producto->save();
@@ -69,39 +75,62 @@ class ProductoController extends Controller
     public function update(Request $request, string $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'required',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+            'new_images.*' => 'image|mimes:jpeg,png,jpg|max:2048', // Validación para las nuevas imágenes
+            'existing_images.*' => 'string',
         ]);
 
-        $producto = Producto::find($id);
-        $producto->name = $validatedData['name'];
-        $producto->description =  $validatedData['description'];
-        $producto->price =  $validatedData['price'];
-        $producto->stock = $validatedData['stock'];
-        $producto->save();
 
-        return response()->json(['message' => 'Producto actualizado con éxito'], 200);
+        $images = [];
+
+
+        if ($request->hasFile('new_images')) {
+            $i = 1;
+            foreach ($request->file('new_images') as $image) {
+                $imageName = $validatedData['name'] . $i . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/productos'), $imageName);
+                $images[] = $imageName;
+                $i++;
+            }
+        }
+
+        $existingImages = $request->input('existing_images', []);
+        $images = array_merge($images, $existingImages);
+
+        if ($producto = Producto::find($id)) {
+            $producto->name = $validatedData['name'];
+            $producto->price =  $validatedData['price'];
+            $producto->stock = $validatedData['stock'];
+            $producto->description =  $validatedData['description'];
+            $producto->product_image = implode(',', $images);
+            $producto->category_id = $validatedData['category_id'];
+            $producto->save();
+            return response()->json(['message' => 'Producto actualizado con éxito'], 200);
+        }
+       
+        
     }
-
     public function destroy(string $id)
     {
         $producto = Producto::find($id);
 
-      
+
         $images = explode(',', $producto->product_image);
         foreach ($images as $image) {
-            $imagePath = public_path('storage/' . $image);
+            $imagePath = public_path('storage/productos/' . $image);
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }
         }
 
-   
+
         $producto->state = 0;
         $producto->update();
 
-        return response()->json(['message'=> 'Eliminado con exito'],200);
+        return response()->json(['message' => 'Eliminado con exito'], 200);
     }
 }

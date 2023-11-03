@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import axios from 'axios';
 
 import Inicio from '../js/components/InicioComponent.vue'
-import ProductComponent from '../js/components/ProductComponent.vue'
+import ProductComponent from '../js/components/admin/product/ProductComponent.vue'
 // rutas crud admin productos
 import ProductCreatePage from '../js/components/admin/product/ProductCreatePage.vue'
 import ProductEditPage from '../js/components/admin/product/ProductEditPage.vue'

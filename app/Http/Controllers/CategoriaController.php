@@ -23,14 +23,14 @@ class CategoriaController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'description' => 'string',
-            'category_image' => 'image',
+            'description' => 'required|string',
+            'category_image' => 'required|image',
         ]);
 
         $categoria = new Categoria([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'category_image' => $request->file('category_image')->store('categorias', 'public'), // Almacena la imagen en la carpeta 'storage/app/public/categorias'
+            'category_image' => $request->file('category_image')->storeAs('categorias', $request->input('name') . '.' . $request->file('category_image')->getClientOriginalExtension(), 'public'),
         ]);
         $categoria->save();
 
@@ -40,8 +40,8 @@ class CategoriaController extends Controller
 
     public function show($id)
     {
-        $categoria = Categoria::find($id);
-        return view('categorias.show', compact('categoria'));
+        // $categoria = Categoria::find($id);
+        // return view('categorias.show', compact('categoria'));
     }
 
     public function edit($id)
@@ -53,23 +53,15 @@ class CategoriaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-             // Validación para la imagen
-        ]);        
+
 
         $categoria = Categoria::find($id);
-        $categoria->name = $request->input('name');
-        $categoria->description = $request->input('description');
+        $categoria->name = ('name');
+        $categoria->category_image = ('category_image');
+        $categoria->description = ('description');
+        dd($categoria);
 
-        if ($request->hasFile('category_image')) {
-            // Eliminar la imagen anterior si existe
-            if (Storage::disk('public')->exists($categoria->category_image)) {
-                Storage::disk('public')->delete($categoria->category_image);
-            }
 
-            // Almacenar la nueva imagen
-            $categoria->category_image = $request->file('category_image')->store('categorias', 'public');
-        }
 
         $categoria->save();
 

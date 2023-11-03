@@ -37,19 +37,6 @@
             <div ref="filter" class="mt-4 lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-8">
                 <!-- Contendor Filtro -->
                 <div class="hidden space-y-4 lg:block">
-                    <div>
-                        <label for="SortBy" class="block text-xs font-medium text-gray-700">
-                            Ordenar Por
-                        </label>
-
-                        <select id="SortBy" class="mt-1 rounded border-gray-300 text-sm">
-                            <option>Ordenar Por</option>
-                            <option value="Title, DESC">Titulo, DESC</option>
-                            <option value="Title, ASC">Titulo, ASC</option>
-                            <option value="Price, DESC">Precio, DESC</option>
-                            <option value="Price, ASC">Precio, ASC</option>
-                        </select>
-                    </div>
 
                     <div>
                         <p class="block text-xs font-medium text-gray-700">Filtros</p>
@@ -72,43 +59,22 @@
 
                                 <div class="border-t border-gray-200 bg-white">
                                     <header class="flex items-center justify-between p-4">
-                                        <span class="text-sm text-gray-700"> 0 Seleccionados </span>
-
+                                        <span class="text-sm text-gray-700"> {{ selectedCategory.length }} Seleccionados
+                                        </span>
                                         <button type="button" class="text-sm text-gray-900 underline underline-offset-4">
                                             Limpiar
                                         </button>
                                     </header>
 
                                     <ul class="space-y-1 border-t border-gray-200 p-4">
-                                        <li>
-                                            <label for="FilterInStock" class="inline-flex items-center gap-2">
-                                                <input type="checkbox" id="FilterInStock"
+                                        <li v-for="categorias in categoria" :key="categorias.id">
+                                            <label class="inline-flex items-center gap-2">
+                                                <input type="checkbox" v-bind:id="categorias.name"
+                                                    v-bind:value="categorias.name" v-model="selectedCategory"
                                                     class="h-5 w-5 rounded border-gray-300" />
-
                                                 <span class="text-sm font-medium text-gray-700">
-                                                    categoria 1
-                                                </span>
-                                            </label>
-                                        </li>
+                                                    {{ categorias.name }}
 
-                                        <li>
-                                            <label for="FilterPreOrder" class="inline-flex items-center gap-2">
-                                                <input type="checkbox" id="FilterPreOrder"
-                                                    class="h-5 w-5 rounded border-gray-300" />
-
-                                                <span class="text-sm font-medium text-gray-700">
-                                                    categoria 2
-                                                </span>
-                                            </label>
-                                        </li>
-
-                                        <li>
-                                            <label for="FilterOutOfStock" class="inline-flex items-center gap-2">
-                                                <input type="checkbox" id="FilterOutOfStock"
-                                                    class="h-5 w-5 rounded border-gray-300" />
-
-                                                <span class="text-sm font-medium text-gray-700">
-                                                    categoria 3
                                                 </span>
                                             </label>
                                         </li>
@@ -137,7 +103,8 @@
                                             El precio más alto es de 600 dólares
                                         </span>
 
-                                        <button type="button" class="text-sm text-gray-900 underline underline-offset-4">
+                                        <button @click="clearSelection()" type="button"
+                                            class="text-sm text-gray-900 underline underline-offset-4">
                                             Limpiar
                                         </button>
                                     </header>
@@ -173,7 +140,7 @@
                     @scroll="handleScroll">
                     <a href="#" class="group relative block overflow-hidden" v-for="product in products" :key="product.id">
 
-                        <img :src="'storage/' + product.product_image.split(',')[0].trim()" alt=""
+                        <img :src="'storage/productos/' + product.product_image.split(',')[0].trim()" alt=""
                             class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                             width="256" height="256" />
 
@@ -184,7 +151,7 @@
                             <h3 class="mt-4 text-lg font-medium text-gray-900">{{ product.name }}</h3>
 
                             <p class="mt-1.5 text-sm text-gray-700">{{ product.price }}</p>
-                            <p class="mt-1.5 text-sm text-gray-700"></p>
+                            <p class="mt-1.5 text-sm text-gray-700">{{ }}</p>
 
 
                             <Button
@@ -202,7 +169,7 @@
 
 <script>
 import axios from 'axios';
-import Button from '../components/Button.vue'
+import Button from '../../Button.vue'
 export default {
     components: {
         Button
@@ -211,24 +178,51 @@ export default {
     data() {
         return {
             products: [],
+            categoria: [],
+            selectedCategory: [],
+            allProducts: [],
+
         };
+    },
+    watch: {
+        selectedCategory: function () {
+            this.categoryFilter();
+        }
+
     },
     created() {
         this.fetchProducts();
+        this.getCategory()
     },
     methods: {
         fetchProducts() {
 
             axios.get('/productos')
                 .then(response => {
-
-                    console.log(this.products = response.data);
+                    this.allProducts = response.data;
+                    this.products = response.data
                 })
                 .catch(error => {
                     console.error(error);
                 });
         },
+        getCategory() {
 
+            axios.get('/categorias')
+                .then(response => {
+                    this.categoria = response.data
+                })
+
+        },
+        categoryFilter() {
+            if (this.selectedCategory.length > 0) {
+                this.products = this.allProducts.filter(product => {
+                    return this.selectedCategory.includes(product.categoria.name);
+                });
+            } else {
+                this.products = [...this.allProducts];
+            }
+        },
 
 
     },

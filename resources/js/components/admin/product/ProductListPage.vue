@@ -8,6 +8,7 @@
             <tr>
               <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Nombre</th>
               <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Descripción</th>
+              <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Categoria</th>
               <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Precio</th>
               <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Stock</th>
 
@@ -19,15 +20,13 @@
             <tr v-for="product in products" :key="product.id">
               <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ product.name }}</td>
               <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ product.description }}</td>
+              <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ product.categoria.name }}</td>
               <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ product.price }}</td>
               <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ product.stock }}</td>
               <td class="whitespace-nowrap px-4 py-2 text-gray-700">
 
-                <button class="bg-sky-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1">Ver</button>
                 <router-link :to="{ name: 'productEdit', params: { id: product.id } }"
                   class="bg-emerald-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1">Editar</router-link>
-
-
                 <button class="bg-red-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1"
                   @click="deleteProduct(product.id)">Eliminar</button>
               </td>
@@ -71,7 +70,6 @@ export default {
       if (confirm("Estas seguro que quieres eliminar este producto?")) {
         axios.delete(`/productos/${id}`)
           .then(response => {
-            console.log(response.data);
             this.fetchProducts();
           })
           .catch(error => {

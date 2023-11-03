@@ -55,7 +55,8 @@
 
                     </div>
                     <div class="mt-2">
-                        <input id="password" name="password" type="password" v-model="password" autocomplete="current-password" required=""
+                        <input id="password" name="password" type="password" v-model="password"
+                            autocomplete="current-password" required=""
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
@@ -93,11 +94,11 @@ export default {
                 name: this.name,
                 email: this.email,
                 password: this.password,
+            }).then(response => {
+                // Handle success response
+                this.$router.push({ path: '/' });
+                console.log(response.data);
             })
-                .then(response => {
-                    // Handle success response
-                    console.log(response.data);
-                })
                 .catch(error => {
                     // Handle error response
                     console.log(error.response.data.errors);

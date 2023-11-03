@@ -9,18 +9,27 @@ use App\Http\Controllers\CategoriaController;
 
 
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
-    Route::resource('categorias', CategoriaController::class);
-    Route::resource('productos', ProductoController::class);
-  
+// Route::post("productos/{id}", [ProductoController::class, "update"]);
+
+
+
+
+
+Route::resource('categorias', CategoriaController::class);
+Route::resource('productos', ProductoController::class);
+;
+
+//  Route::put('productos/{}', 'ProductoController@update');
 
 Auth::routes();
 
-Route::get("/getInfoUser", [UserController::class,"getInfoUser"]);
-Route::get("/getAuth", [UserController::class,"getAuth"]);
+Route::get("/getInfoUser", [UserController::class, "getInfoUser"]);
+Route::get("/getAuth", [UserController::class, "getAuth"]);
+
 
 Route::get('/{any}', function () {
     return view('layouts.app');
@@ -30,6 +39,3 @@ Route::get('/{any}', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
-
-
-

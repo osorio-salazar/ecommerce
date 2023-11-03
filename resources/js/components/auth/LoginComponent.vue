@@ -29,7 +29,7 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" action="#" method="POST" >
+      <form class="space-y-6" action="#" method="POST">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <div>
@@ -63,8 +63,8 @@
 
       <p class="mt-10 text-center text-sm text-gray-500">
         No tienes cuenta?
-        {{ ' ' }}
-        <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Registrate aqui</a>
+        <router-link to="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Registrate
+          aqui</router-link>
       </p>
     </div>
   </div>

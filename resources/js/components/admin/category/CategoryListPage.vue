@@ -18,10 +18,10 @@
                             <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ categoria.name }}</td>
                             <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ categoria.description }}</td>
                             <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                                <img :src="'/storage/' + categoria.category_image" alt="Imagen de la categoría" class="w-20 h-20">
+                                <img :src="'/storage/' + categoria.category_image" alt="Imagen de la categoría"
+                                    class="w-20 h-20">
                             </td>
                             <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                                <button class="bg-sky-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1">Ver</button>
                                 <router-link :to="{ name: 'categoriaEdit', params: { id: categoria.id } }"
                                     class="bg-emerald-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1">Editar</router-link>
                                 <button @click="eliminarCategoria(categoria.id)"
@@ -31,6 +31,10 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="mt-4">
+            <router-link :to="{ path: '/dashboard/category/create' }"
+                class="bg-blue-600 text-white border-e px-3 py-2 rounded-lg p-2 mx-1">Crear Categoria</router-link>
         </div>
     </div>
 </template>

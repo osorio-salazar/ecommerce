@@ -1,3 +1,4 @@
+
 <template>
   <div class="flex h-screen flex-col justify-between border-e bg-white">
     <div class="px-4 py-6">
@@ -95,6 +96,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
 export default {
@@ -106,7 +108,7 @@ export default {
           email: '',
         }
       },
-      rolId: null // Declaración de rolId en el objeto data
+      rolId: null
     }
   },
   created: function () {
@@ -117,8 +119,7 @@ export default {
       axios.get('/getInfoUser')
         .then(respuesta => {
           this.user = respuesta.data;
-          this.rolId = respuesta.data.role_id; // Asignación de valor a rolId
-          console.log(this.rolId)
+          this.rolId = respuesta.data.role_id;
         })
         .catch(error => {
           console.log(error);
