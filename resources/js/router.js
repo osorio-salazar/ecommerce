@@ -98,7 +98,7 @@ const routes = [
     path: '/products/:name',
     name: 'ProductDetails',
     component: ProductDetails,
-    props: true
+    props: route => ({ id: route.query.id })
   }
 
 ];
