@@ -8,6 +8,7 @@ import ProductCreatePage from '../js/components/admin/product/ProductCreatePage.
 import ProductEditPage from '../js/components/admin/product/ProductEditPage.vue'
 import ProductListPage from '../js/components/admin/product/ProductListPage.vue'
 
+
 import CategoryCreatePage from '../js/components/admin/category/CategoryCreatePage.vue'
 import CategoryEditPage from '../js/components/admin/category/CategoryEditPage.vue'
 import CategoryListPage from '../js/components/admin/category/CategoryListPage.vue'
@@ -16,6 +17,7 @@ import RegisterComponent from '../js/components/auth/RegisterComponent.vue'
 import LoginComponent from '../js/components/auth/LoginComponent.vue'
 import CategoryComponent from '../js/components/CategoryComponent.vue'
 import Dashboard from '../js/components/admin/Dashboard.vue'
+
 
 const routes = [
   {
@@ -52,7 +54,7 @@ const routes = [
         path: 'product/edit/:id',
         name: 'productEdit',
         component: ProductEditPage,
-        meta: { requiresAuth: true , requiredRole: 1},
+        meta: { requiresAuth: true, requiredRole: 1 },
 
       },
       { // CRUD admin categories
@@ -91,6 +93,7 @@ const routes = [
     name: 'e-products',
     component: ProductComponent,
   },
+
 ];
 
 const router = createRouter({
