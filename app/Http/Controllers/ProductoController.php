@@ -63,7 +63,9 @@ class ProductoController extends Controller
 
     public function show(string $id)
     {
-        //
+        $producto = Producto::find($id);
+
+        return response()->json($producto,200);
     }
 
     public function edit(string $id)

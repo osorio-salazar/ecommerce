@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-0 md:grid md:grid-cols-3 md:gap-6">
+    <div class="md:grid md:grid-cols-3 md:gap-6">
 
         <div class="mt-5 md:mt-0 md:col-span-2">
             <form v-on:submit.prevent="updateProduct">
@@ -79,7 +79,7 @@
                                 Cover photo
                             </label>
                             <div
-                                class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                class="mt-1 flex justify-center px-6 pt-1 pb-1 border-2 border-gray-300 border-dashed rounded-md">
                                 <div class="space-y-1 text-center">
                                     <div class="flex flex-wrap">
                                         <!-- <img v-for="(product_image, index) in existingImages" :key="'existing-' + index"

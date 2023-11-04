@@ -38,9 +38,9 @@
                                 class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                                 <div class="space-y-1 text-center">
                                     <img v-if="categoria.previewImage" :src="categoria.previewImage"
-                                        class="mx-auto h-150 w-250  rounded-md object-cover" />
+                                        class="mx-auto h-96 w-96 rounded-md object-cover" />
                                     <img v-else :src="'/storage/' + categoria.category_image" alt="Categoría image"
-                                        class="mx-auto h-150 w-250 rounded-md object-cover" />
+                                        class="mx-auto h-96 w-96 rounded-md object-cover" />
 
                                     <div class="flex text-sm text-gray-600">
                                         <label for="category_image"

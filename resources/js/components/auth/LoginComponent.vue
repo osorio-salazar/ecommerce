@@ -29,7 +29,7 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" action="#" method="POST">
+      <form class="space-y-6" @submit="login($event)" method="POST">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <div>
@@ -38,6 +38,10 @@
             <input id="email" name="email" type="email" autocomplete="email" required="" v-model="email"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </div>
+          <div class="mt-2">
+            <ErrorText v-if="errorMessage" :message="errorMessage.email[0]" /> 
+          </div>
+
         </div>
 
         <div>
@@ -52,6 +56,10 @@
               v-model="password"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </div>
+          <div class="mt-2">
+             <ErrorText v-if="errorMessage" :message="errorMessage.email[0]" /> 
+          </div>
+
         </div>
 
         <div>
@@ -73,13 +81,26 @@
 
 <script>
 import axios from 'axios';
+import ErrorText from '../auth/error.vue'
+import { useRouter } from 'vue-router';
 
 export default {
+  components: {
+    ErrorText,
+  },
+
+  props: {
+    message: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       email: '',
       password: '',
       csrfToken: '',
+      errorMessage: '',
     };
   },
   created() {
@@ -88,7 +109,8 @@ export default {
     console.log('CSRF Token:', this.csrfToken);
   },
   methods: {
-    login() {
+    login(event) {
+      event.preventDefault();
 
       axios.post('/login', {
         email: this.email,
@@ -100,11 +122,16 @@ export default {
       })
         .then(response => {
           console.log(response.data);
+          this.$router.push('/');
 
         })
         .catch(error => {
-          console.log(error.response.data.errors);
-
+          if (error.response && error.response.data && error.response.data.errors) {
+            this.errorMessage = error.response.data.errors;
+          console.log(error.response.data)
+          } else {
+            this.errorMessage = 'Ha ocurrido un error al iniciar sesión. Por favor, inténtalo de nuevo.';
+          }
         });
     }
   }

@@ -1,32 +1,215 @@
 
 <template>
-  <div class="bg-gray-100">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
-        <h2 class="text-2xl font-bold text-gray-900">Categorias</h2>
+  <section>
+    <div class="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8">
+      <header>
+        <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">
+          Product Collection
+        </h2>
 
+        <p class="max-w-md mt-4 text-gray-500">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque
+          praesentium cumque iure dicta incidunt est ipsam, officia dolor fugit
+          natus?
+        </p>
+      </header>
 
-<!-- el boton de categoria de be tener un codicional para que solo lo vea los roles permitidos -->
+      <ul class="grid gap-4 mt-8 sm:grid-cols-2 lg:grid-cols-4">
+        <li>
+          <a href="#" class="block overflow-hidden group">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              alt="" class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]" />
 
+            <div class="relative pt-3 bg-white">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                Basic Tee
+              </h3>
 
+              <p class="mt-2">
+                <span class="sr-only"> Regular Price </span>
 
-        <div class="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-          <div v-for="callout in callouts" :key="callout.name" class="group relative">
-            <div class="relative h-80 w-full top-40 overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
-              <img :src="callout.imageSrc" :alt="callout.imageAlt" class="h-full w-full object-cover object-center" />
+                <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+              </p>
             </div>
-            <h3 class="mt-6 text-sm text-gray-500">
-              <a :href="callout.href">
-                <span class="absolute inset-0" />
-                {{ callout.name }}
-              </a>
-            </h3>
-            <p class="text-base font-semibold text-gray-900">{{ callout.description }}</p>
-          </div>
-        </div>
-      </div>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="block overflow-hidden group">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              alt="" class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]" />
+
+            <div class="relative pt-3 bg-white">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                Basic Tee
+              </h3>
+
+              <p class="mt-2">
+                <span class="sr-only"> Regular Price </span>
+
+                <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+              </p>
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="block overflow-hidden group">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              alt="" class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]" />
+
+            <div class="relative pt-3 bg-white">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                Basic Tee
+              </h3>
+
+              <p class="mt-2">
+                <span class="sr-only"> Regular Price </span>
+
+                <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+              </p>
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="block overflow-hidden group">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              alt="" class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]" />
+
+            <div class="relative pt-3 bg-white">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                Basic Tee
+              </h3>
+
+              <p class="mt-2">
+                <span class="sr-only"> Regular Price </span>
+
+                <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+              </p>
+            </div>
+          </a>
+        </li>
+      </ul>
     </div>
+  </section>
+  <section>
+  <div class="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8">
+    <header>
+      <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">
+        Product Collection
+      </h2>
+
+      <p class="max-w-md mt-4 text-gray-500">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque
+        praesentium cumque iure dicta incidunt est ipsam, officia dolor fugit
+        natus?
+      </p>
+    </header>
+
+    <ul class="grid gap-4 mt-8 sm:grid-cols-2 lg:grid-cols-4">
+      <li>
+        <a href="#" class="block overflow-hidden group">
+          <img
+            src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+            alt=""
+            class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+          />
+
+          <div class="relative pt-3 bg-white">
+            <h3
+              class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4"
+            >
+              Basic Tee
+            </h3>
+
+            <p class="mt-2">
+              <span class="sr-only"> Regular Price </span>
+
+              <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+            </p>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="#" class="block overflow-hidden group">
+          <img
+            src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+            alt=""
+            class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+          />
+
+          <div class="relative pt-3 bg-white">
+            <h3
+              class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4"
+            >
+              Basic Tee
+            </h3>
+
+            <p class="mt-2">
+              <span class="sr-only"> Regular Price </span>
+
+              <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+            </p>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="#" class="block overflow-hidden group">
+          <img
+            src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+            alt=""
+            class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+          />
+
+          <div class="relative pt-3 bg-white">
+            <h3
+              class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4"
+            >
+              Basic Tee
+            </h3>
+
+            <p class="mt-2">
+              <span class="sr-only"> Regular Price </span>
+
+              <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+            </p>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="#" class="block overflow-hidden group">
+          <img
+            src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+            alt=""
+            class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+          />
+
+          <div class="relative pt-3 bg-white">
+            <h3
+              class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4"
+            >
+              Basic Tee
+            </h3>
+
+            <p class="mt-2">
+              <span class="sr-only"> Regular Price </span>
+
+              <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+            </p>
+          </div>
+        </a>
+      </li>
+    </ul>
   </div>
+</section>
 </template>
 
 <script setup>

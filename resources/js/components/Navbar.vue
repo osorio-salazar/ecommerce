@@ -30,10 +30,11 @@
 
 
     <ul class="md:flex md:items-center md:px-0 px-3 md:pb-0 pb-10 md:static absolute 
-    bg-gray-900 md:w-auto w-full top-14 duration-700 ease-in" :class="[openNav ? 'left-0 header-open' : 'top-[-40%]']">
+    bg-gray-900 md:w-auto w-full top-14 duration-700 ease-in" :class="[openNav ? 'left-0 header-open' : 'top-[-40%]']"
+      style="z-index: 90;">
 
 
-    <router-link to="/">
+      <router-link to="/">
         <li class="md:mx-4 md:my-0 my-6">
           <a class="text-xl hover:text-blue-500">Inicio</a>
         </li>
@@ -52,7 +53,7 @@
       </router-link>
 
       <div>
-        
+
       </div>
 
       <router-link to="/login" v-if="userIsLogin()">
@@ -75,16 +76,12 @@
               class="inline-flex justify-center w-full rounded-md bg-gray-800 text-white shadow-sm px-4 py-2 text- font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
               id="options-menu" aria-haspopup="true" aria-expanded="true"> {{ user.name }}
 
-              <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                aria-hidden="true">
-                <path fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd" />
-              </svg>
+              <!-- ... -->
+
             </button>
 
             <div v-if="isOpen"
-              class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-800 text-white ring-1 ring-black ring-opacity-5">
+              class="origin-top-right md:absolute md:right-0 md:mt-2 w-56 rounded-md shadow-lg bg-gray-800 text-white ring-1 ring-black ring-opacity-5 md:left-auto left-0">
               <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 <router-link to="/dashboard"
                   class="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-gray-300"

@@ -1,34 +1,24 @@
 <template>
-  <header>
-    <Navbar v-if="showNavbar"></Navbar>
-  </header>
-
-
-  <body>
+  <div>
+    <header>
+      <Navbar v-if="showNavbar"></Navbar>
+    </header>
     <router-view></router-view>
-  </body>
-
-
-
-  <footer>
-    <Footer v-if="showFooter"></Footer>
-  </footer>
+    <footer>
+      <Footer v-if="showFooter"></Footer>
+    </footer>
+  </div>
 </template>
-  
+
 <script>
 import Navbar from './Navbar.vue';
 import Footer from './Footer.vue';
-
 
 export default {
   name: 'App',
   components: {
     Navbar,
     Footer
-
-
-
-
   },
   data() {
     return {
@@ -47,10 +37,6 @@ export default {
       }
     }
   }
-
 }
 </script>
-  
-  
-<style></style>
-  
+
