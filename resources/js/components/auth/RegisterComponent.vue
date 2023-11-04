@@ -39,6 +39,7 @@
                             placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
+
                 <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                     <div class="mt-2">
@@ -46,6 +47,10 @@
                         <input id="email" name="email" type="email" v-model="email" autocomplete="email" required=""
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
+                    <div class="mt-2">
+                        <ErrorText v-if="errors && errors.email" :message="errors.email[0]"/>
+                    </div>
+
                 </div>
 
 
@@ -58,6 +63,9 @@
                         <input id="password" name="password" type="password" v-model="password"
                             autocomplete="current-password" required=""
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                    <div class="mt-2">
+                        <ErrorText v-if="errors && errors.password" :message="errors.password[0]" />
                     </div>
                 </div>
 
@@ -79,13 +87,21 @@
 
 <script>
 import axios from 'axios';
+import ErrorText from '../auth/error.vue'
 
 export default {
+    components: {
+        ErrorText,
+    },
+
+
     data() {
         return {
             name: '',
             email: '',
             password: '',
+            errors: '',
+
         };
     },
     methods: {
@@ -100,8 +116,10 @@ export default {
                 console.log(response.data);
             })
                 .catch(error => {
-                    // Handle error response
-                    console.log(error.response.data.errors);
+
+                    this.errors = error.response.data.errors
+                    console.log(this.errors)
+
                 });
         },
     },

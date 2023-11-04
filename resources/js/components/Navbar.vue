@@ -51,7 +51,25 @@
           <a class="text-xl hover:text-blue-500">Categorias</a>
         </li>
       </router-link>
+      <Cart  ref="cart" />
 
+      <button @click="openCart">
+        <Cart  ref="cart" />
+        <li class="md:mx-4 md:my-0 my-6">
+          <div style="position: relative; display: inline-block;">
+            <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+              class="bi bi-cart" viewBox="0 0 16 16">
+              <path
+                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+                fill="white"></path>
+            </svg>
+            <span
+              style="position: absolute; top: -10px; right: -10px; background-color: red; color: white; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px;">
+              2
+            </span>
+          </div>
+        </li>
+      </button>
       <div>
 
       </div>
@@ -106,11 +124,13 @@
 import axios from 'axios';
 import Button from '../components/Button.vue'
 import { ref } from 'vue';
+import Cart from '../components/cart/cart.vue'
 
 
 export default {
   components: {
-    Button
+    Button,
+    Cart
   },
 
   data() {
@@ -140,10 +160,17 @@ export default {
   },
   created() {
     this.userAuth();
+;
   },
+ 
+ 
 
 
   methods: {
+  
+    handleCartOpen() {
+      // Aquí puedes hacer cualquier cosa que necesites hacer cuando se abra el carrito
+    },
     userAuth() {
 
       axios.get('/getAuth')
