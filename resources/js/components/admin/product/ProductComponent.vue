@@ -138,30 +138,24 @@
 
                 <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-auto"
                     @scroll="handleScroll">
-                    <router-link :to="{ name: 'ProductDetails', params: { name: product.name }, query: { id: product.id } }"
-                        class="group relative block overflow-hidden" v-for="product in products" :key="product.id">
+                    <div class="group relative block overflow-hidden" v-for="product in products" :key="product.id">
+                        <router-link
+                            :to="{ name: 'ProductDetails', params: { name: product.name }, query: { id: product.id } }">
+                            <img :src="'storage/productos/' + product.product_image.split(',')[0].trim()" alt=""
+                                class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+                                width="256" height="256" />
 
-                        <img :src="'storage/productos/' + product.product_image.split(',')[0].trim()" alt=""
-                            class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
-                            width="256" height="256" />
-
-
-                        <div class="relative border border-gray-100 bg-white p-6">
-
-
-                            <h3 class="mt-4 text-lg font-medium text-gray-900">{{ product.name }}</h3>
-
-                            <p class="mt-1.5 text-sm text-gray-700">{{ product.price }}</p>
-                            <p class="mt-1.5 text-sm text-gray-700">{{ }}</p>
-
-
-                            <Button
-                                class="block w-full rounded p-4 text-base font-medium font-semibold transition hover:scale-105 mt-4">
-                                Añadir al carrito
-                            </Button>
-
-                        </div>
-                    </router-link>
+                            <div class="relative border border-gray-100 bg-white p-6">
+                                <h3 class="mt-4 text-lg font-medium text-gray-900">{{ product.name }}</h3>
+                                <p class="mt-1.5 text-sm text-gray-700">{{ product.price }}</p>
+                                <p class="mt-1.5 text-sm text-gray-700">{{ }}</p>
+                            </div>
+                        </router-link>
+                        <Button @click="addProductToCart(product)"
+                            class="block w-full rounded p-4 text-base font-medium font-semibold transition hover:scale-105 mt-4">
+                            Añadir al carrito
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -195,7 +189,7 @@ export default {
     },
     created() {
         this.fetchProducts();
-        this.getCategory()
+        this.getCategory();
     },
     methods: {
         fetchProducts() {
@@ -204,6 +198,7 @@ export default {
                 .then(response => {
                     this.allProducts = response.data;
                     this.products = response.data
+                    console.log(this.products)
                 })
                 .catch(error => {
                     console.error(error);
@@ -226,6 +221,25 @@ export default {
                 this.products = [...this.allProducts];
             }
         },
+
+        addProductToCart(product) {
+            const productData = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                product_image: product.product_image,
+                cantidad: 1,
+            }
+            console.log
+
+            axios.post('/cart', {productData})
+            .then(response => {
+                console.log(response.data)
+            }
+            )
+
+
+        }
 
 
     },

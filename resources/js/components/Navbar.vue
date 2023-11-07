@@ -83,7 +83,7 @@
             </svg>
             <span
               style="position: absolute; top: -10px; right: -10px; background-color: red; color: white; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px;">
-              2
+              {{ cart.products.length }}
             </span>
           </div>
         </li>
@@ -155,6 +155,11 @@ export default {
     return {
       isOpen: false,
       user: '',
+      cart: {
+        products: ''
+      },
+
+
     }
 
   },
@@ -178,6 +183,7 @@ export default {
   },
   created() {
     this.userAuth()
+    this.fetchCart()
 
   },
 
@@ -189,7 +195,21 @@ export default {
     },
     openCart() {
       this.$refs.cart.openModal()
+
     },
+    fetchCart() {
+      axios.get('/cart',)
+        .then(response => {
+          this.cart = response.data
+          console.log(this.cart.products.length)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+
+
+
     showAlertAndNavigate(event) {
       event.preventDefault()
       alert('Inicia sesion o registrate para usar el carrito')

@@ -36,7 +36,7 @@
                             <h2 class="w-16 mr-6 text-xl font-bold dark:text-gray-400">Stock</h2>
                             <p class="text-green-600 dark:text-green-300 ">{{ product.stock }}</p>
                         </div>
-                        <div class="w-32 mb-8 ">
+                        <!-- <div class="w-32 mb-8 ">
                             <label for=""
                                 class="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
                             <div class="relative flex flex-row w-full h-10 mt-4 bg-transparent rounded-lg">
@@ -52,7 +52,7 @@
                                     <span class="m-auto text-2xl font-thin">+</span>
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="flex flex-wrap items-center -mx-4 ">
                             <div class="w-full px-4 mb-4 lg:w-1/2 lg:mb-0">
                                 <button

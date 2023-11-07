@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +21,7 @@ Route::get('/dashboard', function () {
 
 Route::resource('categorias', CategoriaController::class);
 Route::resource('productos', ProductoController::class);
-;
+Route::resource('cart', CartController::class);
 
 //  Route::put('productos/{}', 'ProductoController@update');
 
