@@ -138,7 +138,8 @@
 
                 <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-auto"
                     @scroll="handleScroll">
-                    <router-link  :to="{ name: 'ProductDetails', params: {name: product.name}, query: { id: product.id } }" class="group relative block overflow-hidden" v-for="product in products" :key="product.id">
+                    <router-link :to="{ name: 'ProductDetails', params: { name: product.name }, query: { id: product.id } }"
+                        class="group relative block overflow-hidden" v-for="product in products" :key="product.id">
 
                         <img :src="'storage/productos/' + product.product_image.split(',')[0].trim()" alt=""
                             class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
@@ -175,7 +176,7 @@ export default {
         Button
     },
 
-    
+
 
     data() {
         return {

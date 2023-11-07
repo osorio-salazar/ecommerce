@@ -111,7 +111,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Verifica si la ruta o una de sus rutas padres requiere autenticación
     axios.get('/getInfoUser')
       .then(response => {
         if (response.data == ('0')) {
