@@ -18,6 +18,7 @@ import RegisterComponent from '../js/components/auth/RegisterComponent.vue'
 import LoginComponent from '../js/components/auth/LoginComponent.vue'
 import CategoryComponent from '../js/components/CategoryComponent.vue'
 import Dashboard from '../js/components/admin/Dashboard.vue'
+import PurchaseComponent from '../js/components/cart/PurchaseComponent.vue'
 
 
 const routes = [
@@ -99,6 +100,12 @@ const routes = [
     name: 'ProductDetails',
     component: ProductDetails,
     props: route => ({ id: route.query.id })
+  },
+  {
+    path: '/purchase',
+    name: 'Purchase',
+    component: PurchaseComponent,
+    props: route => ({ cartData: route.query.cartData }),
   },
 
 ];

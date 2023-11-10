@@ -68,6 +68,20 @@
                         <ErrorText v-if="errors && errors.password" :message="errors.password[0]" />
                     </div>
                 </div>
+                <div class="mt-4 text-sm">
+                    <label for="acceptTerms" class="flex items-center cursor-pointer">
+                        <input id="acceptTerms" type="checkbox" v-model="acceptedTerms"
+                            class="form-checkbox text-indigo-600 focus:ring-indigo-500 h-4 w-4" />
+                        <p class="ml-3">Aceptar</p>
+                        <span class="ml-1 font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                            @click.prevent="showModal = true">
+                            términos y condiciones
+                        </span>
+                    </label>
+                </div>
+
+                <!-- componente de modal términos y condiciones -->
+                <TermsModal v-if="showModal" @close="showModal = false" />
 
                 <div>
                     <button type="submit"
@@ -88,10 +102,12 @@
 <script>
 import axios from 'axios';
 import ErrorText from '../auth/error.vue'
+import TermsModal from '../auth/TermsModal.vue';
 
 export default {
     components: {
         ErrorText,
+        TermsModal
     },
 
 
@@ -101,11 +117,22 @@ export default {
             email: '',
             password: '',
             errors: '',
+            acceptedTerms: '',
+            showModal: false,
 
         };
     },
     methods: {
         register() {
+
+            if (!this.acceptedTerms) {
+                // Muestra un mensaje o realiza alguna acción si los términos no son aceptados
+                alert('Debes aceptar los términos y condiciones para registrarte.');
+                return;
+            } else {
+
+            
+
             let cart = localStorage.getItem('cart');
             axios.post('/register', {
                 name: this.name,
@@ -121,6 +148,7 @@ export default {
                     this.errors = error.response.data.errors
                     console.log(this.errors)
                 });
+            }
         },
     },
 };
