@@ -48,7 +48,7 @@
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                     <div class="mt-2">
-                        <ErrorText v-if="errors && errors.email" :message="errors.email[0]"/>
+                        <ErrorText v-if="errors && errors.email" :message="errors.email[0]" />
                     </div>
 
                 </div>
@@ -106,20 +106,20 @@ export default {
     },
     methods: {
         register() {
+            let cart = localStorage.getItem('cart');
             axios.post('/register', {
                 name: this.name,
                 email: this.email,
                 password: this.password,
+                cart: cart
             }).then(response => {
-                // Handle success response
                 this.$router.push({ path: '/' });
+                location.reload();
                 console.log(response.data);
             })
                 .catch(error => {
-
                     this.errors = error.response.data.errors
                     console.log(this.errors)
-
                 });
         },
     },

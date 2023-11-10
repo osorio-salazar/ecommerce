@@ -99,7 +99,7 @@ const routes = [
     name: 'ProductDetails',
     component: ProductDetails,
     props: route => ({ id: route.query.id })
-  }
+  },
 
 ];
 

@@ -5,6 +5,7 @@ import '../css/app.css'
 import navComponent from '../js/components/admin/navDashboard.vue'
 import axios from "axios";
 
+
 const app = createApp(App);
 
 // Vue.component('product-list-page', require('./components/admin/product/ProductListPage.vue').default);

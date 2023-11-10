@@ -146,12 +146,12 @@
                                 width="256" height="256" />
 
                             <div class="relative border border-gray-100 bg-white p-6">
-                                <h3 class="mt-4 text-lg font-medium text-gray-900">{{ product.name }}</h3>
-                                <p class="mt-1.5 text-sm text-gray-700">{{ product.price }}</p>
+                                <h3 class="mt-2 text-lg font-medium text-gray-900">{{ product.name }}</h3>
+                                <p class="mt-1.5 text-sm text-gray-700">${{ product.price }}</p>
                                 <p class="mt-1.5 text-sm text-gray-700">{{ }}</p>
                             </div>
                         </router-link>
-                        <Button @click="addProductToCart(product)"
+                        <Button @click="addProduct(product)"
                             class="block w-full rounded p-4 text-base font-medium font-semibold transition hover:scale-105 mt-4">
                             Añadir al carrito
                         </Button>
@@ -165,12 +165,12 @@
 <script>
 import axios from 'axios';
 import Button from '../../Button.vue'
+import { eventBus } from '../../../eventBus';
+
 export default {
     components: {
         Button
     },
-
-
 
     data() {
         return {
@@ -178,6 +178,7 @@ export default {
             categoria: [],
             selectedCategory: [],
             allProducts: [],
+            user: '',
 
         };
     },
@@ -190,6 +191,7 @@ export default {
     created() {
         this.fetchProducts();
         this.getCategory();
+        this.userAuth();
     },
     methods: {
         fetchProducts() {
@@ -221,26 +223,48 @@ export default {
                 this.products = [...this.allProducts];
             }
         },
+        addProduct(product) {
 
-        addProductToCart(product) {
-            const productData = {
+            const productDatas = {
                 id: product.id,
                 name: product.name,
                 price: product.price,
-                product_image: product.product_image,
-                cantidad: 1,
+                product_image: product.product_image.split(',')[0].trim(),
+                cantidad: 1
             }
-            console.log
 
-            axios.post('/cart', {productData})
-            .then(response => {
-                console.log(response.data)
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let productIndex = cart.findIndex(p => p.id === product.id);
+            console.log(cart);
+
+            if (productIndex !== -1) {
+                cart[productIndex].cantidad += 1;
+            } else {
+                product.cantidad = 1;
+                cart.push(productDatas);
             }
-            )
+
+            if (this.user) {
+                axios.post('/cart', { productDatas })
+                    .then(response => {
+                        console.log(this.response);
+                    })
+            }
 
 
-        }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            eventBus.emit('product-added');
 
+        },
+
+
+        userAuth() {
+            axios.get('/getAuth')
+                .then(response => {
+                    this.user = response.data;
+                })
+        },
 
     },
 };

@@ -2,6 +2,6 @@
 
 @section('content')
     <div id="app">
-        <category-list-page></category-list-page>
+    <CategoryComponent></CategoryComponent>
     </div>
 @endsection

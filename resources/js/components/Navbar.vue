@@ -53,25 +53,8 @@
       </router-link>
 
 
-      <router-link to="/login" v-if="userIsLogin()" @click.native="showAlertAndNavigate">
-        <button>
-          <Cart ref="cart" />
-          <li class="md:mx-4 md:my-0 my-6">
-            <div style="position: relative; display: inline-block;">
-              <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                class="bi bi-cart" viewBox="0 0 16 16">
-                <path
-                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
-                  fill="white"></path>
-              </svg>
 
-            </div>
-          </li>
-        </button>
-      </router-link>
-
-
-      <button @click="openCart" v-else>
+      <button @click="openCart">
         <Cart ref="cart" />
         <li class="md:mx-4 md:my-0 my-6">
           <div style="position: relative; display: inline-block;">
@@ -83,7 +66,7 @@
             </svg>
             <span
               style="position: absolute; top: -10px; right: -10px; background-color: red; color: white; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px;">
-              {{ cart.products.length }}
+              {{ cartQuantity }}
             </span>
           </div>
         </li>
@@ -115,7 +98,6 @@
               <!-- ... -->
 
             </button>
-
             <div v-if="isOpen"
               class="origin-top-right md:absolute md:right-0 md:mt-2 w-56 rounded-md shadow-lg bg-gray-800 text-white ring-1 ring-black ring-opacity-5 md:left-auto left-0">
               <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -143,6 +125,7 @@ import axios from 'axios';
 import Button from '../components/Button.vue'
 import { ref } from 'vue';
 import Cart from '../components/cart/cart.vue'
+import { eventBus } from '../eventBus';
 
 
 export default {
@@ -155,9 +138,7 @@ export default {
     return {
       isOpen: false,
       user: '',
-      cart: {
-        products: ''
-      },
+      cartQuantity: 0
 
 
     }
@@ -181,11 +162,16 @@ export default {
       Links, openNav, oopen
     }
   },
-  created() {
-    this.userAuth()
-    this.fetchCart()
 
+
+  created() {
+    eventBus.on('product-added', this.openCart);
+    eventBus.on('product-added', this.updateCartQuantity);
+    eventBus.on('product-delete', this.updateCartQuantity);
+    this.updateCartQuantity();
+    this.userAuth()
   },
+
 
 
   methods: {
@@ -197,11 +183,12 @@ export default {
       this.$refs.cart.openModal()
 
     },
+
     fetchCart() {
-      axios.get('/cart',)
+      axios.get('/cart')
         .then(response => {
-          this.cart = response.data
-          console.log(this.cart.products.length)
+          localStorage.setItem('cart', JSON.stringify(response.data));
+
         })
         .catch(error => {
           console.error(error);
@@ -209,24 +196,30 @@ export default {
     },
 
 
-
-    showAlertAndNavigate(event) {
-      event.preventDefault()
-      alert('Inicia sesion o registrate para usar el carrito')
+    getCart() {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    },
+    updateCartQuantity() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      this.cartQuantity = cart.length;
     },
 
 
-    userAuth() {
 
+    userAuth() {
       axios.get('/getAuth')
         .then(response => {
-          this.user = response.data
+          this.user = response.data;
+          if (this.user) {
+            this.fetchCart();
+          }
+
         })
     },
     logout() {
       axios.post('/logout')
         .then(() => {
-
+          localStorage.clear();
           window.location.href = '/';
         })
         .catch(error => {
@@ -240,11 +233,6 @@ export default {
         return true
       }
     },
-
-
-
-
-
 
     closeDropdown() {
       if (this.isOpen && event.target !== this.$refs.dropdownButton) {

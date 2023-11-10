@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Roles;
 use App\Models\UserRole;
+use App\Models\Cart;
 
 class RegisterController extends Controller
 {
@@ -55,6 +56,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8',],
+            'cart' => ['sometimes'],
         ]);
     }
 
@@ -80,6 +82,31 @@ class RegisterController extends Controller
                 'role_id' => $role->id,
             ]);
         }
+
+        if (isset($data['cart'])) {
+
+            $products = json_decode($data['cart'], true);
+
+
+            $cart = new Cart();
+            $cart->user_id = $user->id;
+            $cart->products = json_encode($products);
+            $cart->status = 1;
+
+
+            $total = 0;
+            foreach ($products as $product) {
+                $total += $product['price'] * $product['cantidad'];
+            }
+            $cart->products_total = $total;
+
+            $cart->save();
+        }
+
+
+
+
+
         return $user;
     }
 }

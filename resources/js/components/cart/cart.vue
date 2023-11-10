@@ -17,7 +17,7 @@
                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                     <div class="flex items-start justify-between">
-                      <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
+                      <DialogTitle class="text-lg font-medium text-gray-900">Carrito de compra</DialogTitle>
                       <div class="ml-3 flex h-7 items-center">
                         <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
                           @click="open = false">
@@ -32,29 +32,37 @@
 
                       <div class="flow-root">
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
-                          <li v-for="(product, index) in cart.products" class="flex py-6">
+                          <li v-for="product in cart" :key="product.id" class="flex py-6">
                             <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                               <img :src="'/storage/productos/' + product.product_image.split(',')[0].trim()"
-                                :alt="product.imageAlt" class="h-full w-full object-cover object-center" /> 
+                              <img :src="'/storage/productos/' + product.product_image" :alt="product.name"
+                                class="h-full w-full object-cover object-center" />
                             </div>
 
                             <div class="ml-4 flex flex-1 flex-col">
                               <div>
                                 <div class="flex justify-between text-base font-medium text-gray-900">
-                                  <h3>
-                                    <a  >{{ product.name }}</a>
+                                  <h3 class="text-xl font-bold">
+                                    <a>{{ product.name }}</a>
                                   </h3>
-                                  <p class="ml-4">${{  product.price}}</p>
+                                  <p class="ml-4">${{ product.price }}</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500">{{product.description}}</p>
+
                               </div>
                               <div class="flex flex-1 items-end justify-between text-sm">
-                                <p class="text-gray-500">Cantidad: {{ product.cantidad}}</p>
-
                                 <div class="flex">
-                                  <button type="button"
-                                    class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                  <div class="flex items-center">
+                                    <label for="cantidad"
+                                      class="block text-sm font-medium text-gray-700 mr-4">Cantidad:</label>
+                                    <input type="number" min="1" id="cantidad" :max="100"
+                                      v-model.number="product.cantidad"
+                                      @change="updateProductQuantity(product, product.cantidad)"
+                                      class="block w-1/2 py-2 px-3 border border-gray-300 rounded-md  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                  </div>
                                 </div>
+                                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500"
+                                  @click="removeProduct(product)">
+                                  Eliminar
+                                </button>
                               </div>
                             </div>
                           </li>
@@ -66,7 +74,7 @@
                   <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                     <div class="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
-                      <p>$262.00</p>
+                      <p>${{ subtotal }}</p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                     <div class="mt-6">
@@ -96,51 +104,110 @@
 
 
 
+
+
 <script>
-
-
 import axios from 'axios'
+import { eventBus } from '../../eventBus'
 
 export default {
   data() {
     return {
-      cart: '',
+      cart: [],
       user: '',
     }
 
   },
-
+  computed: {
+    subtotal() {
+      return this.cart.reduce((total, product) => {
+        return total + (product.price * product.cantidad);
+      }, 0);
+    }
+  },
   created() {
-    this.fetchProducts();
+    this.cart = this.getCart();
+    eventBus.on('product-added', this.dateCart);
     this.userAuth();
-   
   },
 
   methods: {
-    fetchProducts() {
-      axios.get('/cart', )
+    fetchCart() {
+      axios.get('/cart')
         .then(response => {
-          this.cart = response.data
-          console.log(this.cart)
+          localStorage.setItem('cart', JSON.stringify(response.data));
+
         })
         .catch(error => {
           console.error(error);
         });
     },
+    getCart() {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    },
     userAuth() {
       axios.get('/getAuth')
         .then(response => {
           this.user = response.data;
+          if (this.user) {
+            this.fetchCart();
+          }
+
         })
+    },
+    removeProduct(product) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let productIndex = cart.findIndex(p => p.id === product.id);
+      if (productIndex !== -1) {
+        cart.splice(productIndex, 1);
+        this.updateCart(cart);
+
+        if (this.user) {
+          axios.delete(`/cart/${this.cart.id}`, { data: { productId: product.id } })
+            .then(response => {
+              console.log('delete finish')
+            })
+            .catch(error => {
+              console.log(this.cart.id);
+              console.error('delete', error);
+            });
+        }
+      }
+      eventBus.emit('product-delete');
+    },
+    updateProductQuantity(product, quantity) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let productIndex = cart.findIndex(p => p.id === product.id);
+
+      if (productIndex !== -1) {
+        cart[productIndex].cantidad = quantity;
+        this.updateCart(cart);
+
+        if (this.user) {
+          axios.put(`/cart/${this.cart.id}`, { productData: cart[productIndex] })
+            .then(response => {
+              console.log(this.cart)
+              console.log('Cantidad del producto actualizada en la base de datos');
+            })
+            .catch(error => {
+              console.error('Error al actualizar la cantidad del producto:', error);
+            });
+        }
+
+      }
+    },
+
+    updateCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      this.cart = cart;
+    },
+
+    dateCart() {
+      this.cart = this.getCart();
     },
   }
 
-
-
-
 }
-
-
 
 
 </script>
@@ -158,6 +225,7 @@ const emit = defineEmits(['open'])
 function openModal() {
   open.value = true
   emit('open')
+
 }
 
 

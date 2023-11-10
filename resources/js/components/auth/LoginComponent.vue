@@ -39,7 +39,7 @@
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </div>
           <div class="mt-2">
-            <ErrorText v-if="errorMessage" :message="errorMessage.email[0]" /> 
+            <ErrorText v-if="errorMessage" :message="errorMessage.email[0]" />
           </div>
 
         </div>
@@ -57,7 +57,7 @@
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </div>
           <div class="mt-2">
-             <ErrorText v-if="errorMessage" :message="errorMessage.email[0]" /> 
+            <ErrorText v-if="errorMessage" :message="errorMessage.email[0]" />
           </div>
 
         </div>
@@ -122,13 +122,23 @@ export default {
       })
         .then(response => {
           console.log(response.data);
+          location.reload();
           this.$router.push('/');
+
+          // let cart = JSON.parse(localStorage.getItem)
+          // if (cart.length > 0){
+          //   axios.post('/cart/', {$productDatas})
+
+          // }else {
+
+
+          // }
 
         })
         .catch(error => {
           if (error.response && error.response.data && error.response.data.errors) {
             this.errorMessage = error.response.data.errors;
-          console.log(error.response.data)
+            console.log(error.response.data)
           } else {
             this.errorMessage = 'Ha ocurrido un error al iniciar sesión. Por favor, inténtalo de nuevo.';
           }
