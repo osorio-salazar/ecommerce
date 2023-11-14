@@ -147,7 +147,7 @@ export default {
             if (confirm('¿Estás seguro de eliminar esta categoría?')) {
                 axios.delete(`/categorias/${id}`)
                     .then(response => {
-                        this.fetchCategorias(); // Actualizar la lista de categorías después de la eliminación
+                        this.fetchCategorias(); 
                     })
                     .catch(error => {
                         console.error(error);

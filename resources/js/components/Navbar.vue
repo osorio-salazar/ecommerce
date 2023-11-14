@@ -54,7 +54,7 @@
 
 
 
-      <button @click="openCart">
+      <button @click="openCart" :disabled="route.path === '/purchase'">
         <Cart ref="cart" />
         <li class="md:mx-4 md:my-0 my-6">
           <div style="position: relative; display: inline-block;">
@@ -122,6 +122,7 @@
 <script>
 
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 import Button from '../components/Button.vue'
 import { ref } from 'vue';
 import Cart from '../components/cart/cart.vue'
@@ -147,6 +148,7 @@ export default {
 
   setup() {
     const openNav = ref(false);
+    const route = useRoute()
 
     let Links = [
       { name: 'Productos', link: '/products' },
@@ -159,7 +161,7 @@ export default {
       console.log(openNav.value);
     }
     return {
-      Links, openNav, oopen
+      Links, openNav, oopen, route
     }
   },
 
@@ -221,6 +223,7 @@ export default {
         .then(() => {
           localStorage.clear();
           window.location.href = '/';
+          location.reload();
         })
         .catch(error => {
           console.log(error);

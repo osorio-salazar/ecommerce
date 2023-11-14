@@ -78,7 +78,7 @@
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                     <div class="mt-6">
-                      <a href="#"
+                      <a @click="checkout"
                         class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
                     </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
@@ -125,6 +125,13 @@ export default {
       }, 0);
     }
   },
+  // watch: {
+  //   '$route'(to, from) {
+  //     if (to.path === '/purchase') {
+  //       eventBus.emit('checkout');
+  //     }
+  //   }
+  // },
   created() {
     this.cart = this.getCart();
     eventBus.on('product-added', this.dateCart);
@@ -144,6 +151,13 @@ export default {
     },
     getCart() {
       return JSON.parse(localStorage.getItem('cart')) || [];
+    },
+
+    checkout() {
+      this.$router.push('/purchase');
+
+
+
     },
     userAuth() {
       axios.get('/getAuth')
@@ -213,20 +227,30 @@ export default {
 </script>
   
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 
 
 const open = ref(false)
 
+const route = useRoute()
+
+watch(route, (to, from) => {
+  if (to.path === '/purchase') {
+    open.value = false
+  }
+})
+
 const emit = defineEmits(['open'])
 
 function openModal() {
   open.value = true
   emit('open')
-
 }
+
+
 
 
 defineExpose({
