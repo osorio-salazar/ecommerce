@@ -28,10 +28,12 @@ const routes = [
     component: Inicio
   }, // store
   {
-    path: '/categorias',
+    path: '/categorias/:categoryId',
     name: 'categoriaComponent',
-    component: CategoryComponent
-  }, // store
+    component: CategoryComponent,
+    props: true, // Esto permitirá pasar los parámetros como props
+  },
+   // store
 
   {
     path: '/dashboard',

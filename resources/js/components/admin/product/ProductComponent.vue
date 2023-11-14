@@ -185,7 +185,10 @@ export default {
     watch: {
         selectedCategory: function () {
             this.categoryFilter();
-        }
+        },
+        categoriaId: function () {
+            this.fetchProductsByCategoria();
+        },
 
     },
     created() {
