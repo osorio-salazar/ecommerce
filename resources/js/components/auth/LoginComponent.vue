@@ -122,8 +122,8 @@ export default {
       })
         .then(response => {
           console.log(response.data);
-          location.reload();
           this.$router.push('/');
+          location.reload();
 
           // let cart = JSON.parse(localStorage.getItem)
           // if (cart.length > 0){

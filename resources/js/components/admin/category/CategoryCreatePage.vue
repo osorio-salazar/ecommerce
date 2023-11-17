@@ -16,7 +16,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
 
                         <div>
                             <label for="about" class="block text-sm font-medium text-gray-700">
@@ -94,11 +94,14 @@ export default {
     },
     methods: {
         guardarCategoria() {
+
             let formData = new FormData();
             formData.append('name', this.categoria.name);
             formData.append('description', this.categoria.description);
             formData.append('category_image', this.categoria.category_image);
 
+
+            console.log(formData.get('category_image'));
             axios.post('/categorias', formData)
                 .then(response => {
                     console.log(response.data);

@@ -36,10 +36,25 @@
             <!-- Contendor Principal -->
             <div ref="filter" class="mt-4 lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-8">
                 <!-- Contendor Filtro -->
+
+
+
                 <div class="hidden space-y-4 lg:block">
+
+
 
                     <div>
                         <p class="block text-xs font-medium text-gray-700">Filtros</p>
+
+                        <div class="overflow-hidden rounded border border-gray-300">
+                            <div class="p-4">
+                                <span class="text-sm font-medium"> Buscar </span>
+                                <div class="mt-2">
+                                    <input type="text" v-model="searchTerm" placeholder="Buscar..."
+                                        class="w-full rounded-md border-gray-200 shadow-sm sm:text-sm" />
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="mt-1 space-y-2">
                             <details
@@ -138,7 +153,7 @@
 
                 <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-auto"
                     @scroll="handleScroll">
-                    <div class="group relative block overflow-hidden" v-for="product in products" :key="product.id">
+                    <div class="group relative block overflow-hidden" v-for="product in filteredProducts" :key="product.id">
                         <router-link
                             :to="{ name: 'ProductDetails', params: { name: product.name }, query: { id: product.id } }">
                             <img :src="'storage/productos/' + product.product_image.split(',')[0].trim()" alt=""
@@ -185,17 +200,39 @@ export default {
     },
     watch: {
         selectedCategory: function () {
+
             this.categoryFilter();
         },
         categoriaId: function () {
             this.fetchProductsByCategoria();
         },
 
+
     },
     created() {
         this.fetchProducts();
         this.getCategory();
         this.userAuth();
+        eventBus.on('product-add', this.addProduct);
+
+    },
+
+    mounted() {
+
+    },
+    computed: {
+        filteredProducts() {
+            if (!this.searchTerm) {
+                return this.products;
+            }
+
+            return this.products.filter(product =>
+                product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+            )
+        },
+
+
+
     },
     computed: {
         filteredProducts() {
@@ -237,10 +274,10 @@ export default {
                 });
             } else {
                 this.products = [...this.allProducts];
+                console.log('hola si como tan')
             }
         },
         addProduct(product) {
-
             const productDatas = {
                 id: product.id,
                 name: product.name,
@@ -264,7 +301,7 @@ export default {
             if (this.user) {
                 axios.post('/cart', { productDatas })
                     .then(response => {
-                        console.log(this.response);
+                        console.log(response);
                     })
             }
 

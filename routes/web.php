@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CitiesDepartmentsController;
+use App\Http\Controllers\PaymentController;
 
 
 
@@ -24,13 +26,21 @@ Route::resource('productos', ProductoController::class);
 Route::resource('cart', CartController::class);
 
 //  Route::put('productos/{}', 'ProductoController@update');
-
+Route::get("/createPayment", [PaymentController::class,"createPayment"]);
+Route::get("/paymentSuccess", [PaymentController::class, "successPayment"]);
 Auth::routes();
 
 Route::get("/getInfoUser", [UserController::class, "getInfoUser"]);
 Route::get("/getAuth", [UserController::class, "getAuth"]);
+Route::get("/departments", [CitiesDepartmentsController::class, "getDepartments"]);
+Route::get("/mercadopago-key", [PaymentController::class, "getMercadoPagoKey"]);
 
 
+
+Route::get("/cities/{id}", [CitiesDepartmentsController::class, "getCities"]);
+Route::get('/{any}', function () {
+    return view('layouts.app');
+})->where('any', '.*');
 
 
 Route::get('/dashboard', function () {

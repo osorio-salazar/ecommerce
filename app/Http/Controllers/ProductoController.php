@@ -36,13 +36,32 @@ class ProductoController extends Controller
         ]);
 
         $images = [];
-
         if ($request->hasFile('images')) {
             $i = 1;
             foreach ($request->file('images') as $image) {
-                $imageName = $validatedData['name'] . $i . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('storage/productos'), $imageName);
-                $images[] = $imageName;
+                $imageName = $validatedData['name'] . $i . '.webp';
+                $destinationPath = public_path('storage/productos');
+
+       
+                $src = imagecreatefromstring(file_get_contents($image));
+
+              
+                if (!imageistruecolor($src)) {
+                    $trueColorImage = imagecreatetruecolor(imagesx($src), imagesy($src));
+                    imagecopy($trueColorImage, $src, 0, 0, 0, 0, imagesx($src), imagesy($src));
+                    imagedestroy($src);
+                    $src = $trueColorImage;
+                }
+
+              
+                $created = imagewebp($src, $destinationPath . '/' . $imageName, 80);
+
+                if ($created) {
+                    $images[] = $imageName;
+                }
+
+                imagedestroy($src);
+
                 $i++;
             }
         }
@@ -65,7 +84,7 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id);
 
-        return response()->json($producto,200);
+        return response()->json($producto, 200);
     }
 
     public function edit(string $id)
@@ -113,8 +132,6 @@ class ProductoController extends Controller
             $producto->save();
             return response()->json(['message' => 'Producto actualizado con éxito'], 200);
         }
-       
-        
     }
     public function destroy(string $id)
     {

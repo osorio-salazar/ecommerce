@@ -8,18 +8,18 @@
                         <table class="w-full">
                             <thead>
                                 <tr>
-                                    <th class="text-left font-semibold">Product</th>
-                                    <th class="text-left font-semibold">Price</th>
-                                    <th class="text-left font-semibold">Quantity</th>
+                                    <th class="text-left font-semibold">Productos</th>
+                                    <th class="text-left font-semibold">Precio</th>
+                                    <th class="text-left font-semibold">Cantidad</th>
                                     <th class="text-left font-semibold">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(product, index) in cart.products" :key="index">
+                                <tr v-for="product in cart" :key="product.id">
                                     <td class="py-4">
                                         <div class="flex items-center">
                                             <img :src="'/storage/productos/' + product.product_image.split(',')[0].trim()"
-                                                :alt="product.imageAlt" class="h-16 w-16 mr-4" />
+                                                class="h-16 w-16 mr-4" />
                                             <span class="font-semibold text-2xl ml-5">{{ product.name }}</span>
                                         </div>
                                     </td>
@@ -31,7 +31,7 @@
                                     </td>
                                     <td class="py-4">${{ (product.price * product.cantidad).toFixed(2) }}</td>
                                 </tr>
-                                <!-- More product rows -->
+
                             </tbody>
                         </table>
                     </div>
@@ -41,11 +41,11 @@
                         <h2 class="text-lg font-semibold mb-4">Summary</h2>
                         <div class="flex justify-between mb-2">
                             <span>Subtotal</span>
-                            <span>$19.99</span>
+                            <span>${{ subtotal }}</span>
                         </div>
                         <div class="flex justify-between mb-2">
                             <span>Taxes</span>
-                            <span>$1.99</span>
+                            <span>$500</span>
                         </div>
                         <div class="flex justify-between mb-2">
                             <span>Shipping</span>
@@ -56,42 +56,106 @@
                             <span class="font-semibold">Total</span>
                             <span class="font-semibold">$21.98</span>
                         </div>
+
+
+
+                        <div id="cho-container"></div>
                         <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</button>
+
+
+
+
+
+                        <hr class="my-2">
+
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </template>
+
   
 <script>
-// // SDK de Mercado Pago
-// import { MercadoPagoConfig } from 'MercadoPago';
-// // Agrega credenciales
-// const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
+
+import axios, { Axios } from 'axios';
+import { loadMercadoPago } from "@mercadopago/sdk-js";
 
 
 export default {
+
     data() {
         return {
-            cart: null,
+            cart: [],
+
         };
     },
-    created() {
-        this.cart = JSON.parse(this.$route.query.cartData);
-        console.log('Productos en el carrito:', this.cart.products);
+    async created() {
+        this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        console.log('Productos en el carrito:', this.cart);
     },
+
+
+    computed: {
+        subtotal() {
+            return this.cart.reduce((total, product) => {
+                return total + (product.price * product.cantidad);
+            }, 0);
+        }
+    },
+    mounted() {
+        this.userAuth();
+    },
+
+
     methods: {
-        realizarCompra() {
-            const mp = new MercadoPago({
-                client_id: 'TU_CLIENT_ID', // Tu Client ID de Mercado Pago
-                access_token: process.env.MP_ACCESS_TOKEN, // Tu Access Token de Mercado Pago
-            });
+        async realizarCompra() {
+            const container = document.getElementById('cho-container');
+
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+            await loadMercadoPago();
+            const mp = new window.MercadoPago("TEST-dbff2fdb-8932-4efa-9fd3-0f10db54ce4a", {
+                locale: "es-CO",
+            })
+
+            const response = await axios.get('/createPayment');
+            
+
+            const preferenceId = response.data;
+
+
+            mp.bricks().create("wallet", "cho-container", {
+                initialization: {
+                    preferenceId: preferenceId,
+                    redirectMode: "modal",
+                },
+            })
+
         },
+
+        getCartDataBase() {
+
+        },
+
+        userAuth() {
+            axios.get('/getAuth')
+                .then(response => {
+                    this.user = response.data;
+                    if (this.user) {
+                        this.realizarCompra();
+                    }
+
+                })
+        },
+
     },
 };
 </script>
-  
+
+
 <style scoped>
 .purchase-container {
     text-align: center;
