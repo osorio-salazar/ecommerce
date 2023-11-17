@@ -12,25 +12,29 @@
       </header>
 
       <ul class="grid gap-4 mt-8 sm:grid-cols-2 lg:grid-cols-4">
+
         <li v-for="categoria in categorias" :key="categoria.id">
-          <a href="#" class="block overflow-hidden group">
-            <img :src="'/storage/' + categoria.category_image" alt="Imagen de la categoría" class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]" />
+          <router-link to="/products" @click.native="categorySelect(categoria)">
+            <a class="block overflow-hidden group">
+              <img :src="'/storage/' + categoria.category_image" alt="Imagen de la categoría"
+                class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]" />
 
-            <div class="relative pt-3 bg-white">
-              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                Basic Tee
-              </h3>
+              <div class="relative pt-3 bg-white">
+                <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                  Basic Tee
+                </h3>
 
-              <p class="mt-2">
-                <span class="sr-only"> Regular Price </span>
+                <p class="mt-2">
+                  <span class="sr-only"> Regular Price </span>
 
-                <!-- <span class="tracking-wider text-gray-900"> {{ categoria.name }} </span> -->
-                <router-link :to="{ name: 'categoriaComponent', params: { categoryId: categoria.id } }">{{ categoria.name }}</router-link>
+                  <!-- <span class="tracking-wider text-gray-900"> {{ categoria.name }} </span> -->
 
-              </p>
-            </div>
-          </a>
+                </p>
+              </div>
+            </a>
+          </router-link>
         </li>
+
       </ul>
     </div>
   </section>
@@ -38,63 +42,74 @@
 
 <script>
 import axios from 'axios';
+import { eventBus } from '../eventBus';
 
 export default {
-    data() {
-        return {
-            categorias: [],
-        };
+  data() {
+    return {
+      categorias: [],
+    };
+  },
+  created() {
+    this.fetchCategorias();
+    if (this.$route.query.success !== undefined) {
+      this.paymentSucces();
+      console.log('dalepapa')
+    }
+    else {
+      console.log('no se pudo pa')
+    }
+  },
+
+
+
+  methods: {
+    fetchCategorias() {
+      axios.get('/categorias')
+        .then(response => {
+          this.categorias = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
-    created() {
-        this.fetchCategorias();
+    eliminarCategoria(id) {
+      if (confirm('¿Estás seguro de eliminar esta categoría?')) {
+        axios.delete(`/categorias/${id}`)
+          .then(response => {
+            this.fetchCategorias(); // Actualizar la lista de categorías después de la eliminación
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
     },
-    methods: {
-        fetchCategorias() {
-            axios.get('/categorias')
-                .then(response => {
-                    this.categorias = response.data;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
-        eliminarCategoria(id) {
-            if (confirm('¿Estás seguro de eliminar esta categoría?')) {
-                axios.delete(`/categorias/${id}`)
-                    .then(response => {
-                        this.fetchCategorias(); // Actualizar la lista de categorías después de la eliminación
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            }
-        },
+
+    categorySelect(categoria) {
+
+      const name = categoria.name
+      eventBus.emit('selectCategory', name)
+
+      
     },
+
+
+
+
+
+
+    paymentSucces() {
+      axios.get('/paymentSuccess')
+        .then(response => {
+          console.log()
+        })
+
+    }
+
+
+
+
+  },
 };
 </script>
 
-<script setup>
-const callouts = [
-  {
-    name: 'Desk and Office',
-    description: 'Work from home accessories',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg',
-    imageAlt: 'Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.',
-    href: '#',
-  },
-  {
-    name: 'Self-Improvement',
-    description: 'Journals and note-taking',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg',
-    imageAlt: 'Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.',
-    href: '#',
-  },
-  {
-    name: 'Travel',
-    description: 'Daily commute essentials',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
-    imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-    href: '#',
-  },
-]
-</script>

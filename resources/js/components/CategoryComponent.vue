@@ -5,7 +5,7 @@
   
         <div v-if="productos.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div v-for="producto in productos" :key="producto.id" class="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md">
-            <img :src="'/storage/productos/' + producto.product_image" class="w-full h-48 object-cover" alt="Imagen de producto">
+            <img :src="'/storage/productos/' + producto.product_image.split(',')[0].trim()" class="w-full h-48 object-cover" alt="Imagen de producto">
             <div class="px-6 py-4">
               <div class="font-bold text-xl mb-2">{{ producto.name }}</div>
               <p class="text-gray-700 text-base">{{ producto.description }}</p>

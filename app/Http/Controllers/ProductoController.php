@@ -42,10 +42,10 @@ class ProductoController extends Controller
                 $imageName = $validatedData['name'] . $i . '.webp';
                 $destinationPath = public_path('storage/productos');
 
-                // Crea una nueva imagen a partir del archivo subido
+       
                 $src = imagecreatefromstring(file_get_contents($image));
 
-                // Convierte la imagen a true color si es una imagen con paleta de colores
+              
                 if (!imageistruecolor($src)) {
                     $trueColorImage = imagecreatetruecolor(imagesx($src), imagesy($src));
                     imagecopy($trueColorImage, $src, 0, 0, 0, 0, imagesx($src), imagesy($src));
@@ -53,14 +53,13 @@ class ProductoController extends Controller
                     $src = $trueColorImage;
                 }
 
-                // Guarda la imagen en formato WebP en el directorio de destino
+              
                 $created = imagewebp($src, $destinationPath . '/' . $imageName, 80);
 
                 if ($created) {
                     $images[] = $imageName;
                 }
 
-                // Libera la memoria
                 imagedestroy($src);
 
                 $i++;

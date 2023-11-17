@@ -1,7 +1,7 @@
 <template>
     <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form @submit.prevent="updateCategoria" >
+            <form @submit.prevent="updateCategoria">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                         <div class="grid grid-cols-3 gap-6">
@@ -77,6 +77,8 @@ export default {
     data() {
         return {
             categoria: {
+                name: '',
+                description: '',
                 previewImage: null,
                 category_image: null,
 
@@ -92,7 +94,7 @@ export default {
             axios.get(`/categorias/${categoriaId}/edit`)
                 .then(response => {
                     this.categoria = response.data;
-                    console.log(this.categoria);
+                    // console.log(this.categoria);
                 })
                 .catch(error => {
                     console.log(error);
@@ -101,22 +103,26 @@ export default {
         onFileChange(event) {
             this.categoria.category_image = event.target.files[0];
             this.categoria.previewImage = URL.createObjectURL(event.target.files[0]);
-            console.log(this.categoria.category_image)
+            // console.log(this.categoria.category_image)
         },
         updateCategoria() {
             const categoriaId = this.$route.params.id;
 
-            const dataCategory = {
-                name: this.categoria.name,
-                description: this.categoria.description,
-                category_image: this.categoria.category_image,
+            console.log(this.categoria.description)
+            const formData = new FormData();
 
-            };
+            formData.append("_method", "PUT")
+            formData.append('name', this.categoria.name);
+            formData.append('description', this.categoria.description);
+            formData.append('category_image', this.categoria.category_image);
 
-            axios.put(`/categorias/${categoriaId}`, dataCategory, {
+
+            // console.log(formData);
+
+            axios.post(`/categorias/${categoriaId}`, formData, {
             })
                 .then(response => {
-                    console.log(dataCategory.category_image)
+                    console.log(formData.category_image)
                     alert('Categoría actualizada exitosamente');
                     this.$router.push('/dashboard/category/list');
                 })

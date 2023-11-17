@@ -158,6 +158,7 @@ export default {
 
 
 
+
     },
     userAuth() {
       axios.get('/getAuth')

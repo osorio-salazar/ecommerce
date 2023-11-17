@@ -1,6 +1,7 @@
 <template>
   <div>
-    <header>
+    <header >
+      
       <Navbar v-if="showNavbar"></Navbar>
     </header>
     <router-view></router-view>
@@ -9,6 +10,7 @@
     </footer>
   </div>
 </template>
+
 
 <script>
 import Navbar from './Navbar.vue';

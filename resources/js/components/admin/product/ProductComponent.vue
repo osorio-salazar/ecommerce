@@ -200,17 +200,25 @@ export default {
     },
     watch: {
         selectedCategory: function () {
+
             this.categoryFilter();
         },
         categoriaId: function () {
             this.fetchProductsByCategoria();
         },
 
+
     },
     created() {
         this.fetchProducts();
         this.getCategory();
         this.userAuth();
+        eventBus.on('product-add', this.addProduct);
+
+    },
+
+    mounted() {
+
     },
     computed: {
         filteredProducts() {
@@ -220,8 +228,10 @@ export default {
 
             return this.products.filter(product =>
                 product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-            );
-        }
+            )
+        },
+
+
 
     },
     methods: {
@@ -252,10 +262,10 @@ export default {
                 });
             } else {
                 this.products = [...this.allProducts];
+                console.log('hola si como tan')
             }
         },
         addProduct(product) {
-
             const productDatas = {
                 id: product.id,
                 name: product.name,
@@ -279,7 +289,7 @@ export default {
             if (this.user) {
                 axios.post('/cart', { productDatas })
                     .then(response => {
-                        console.log(this.response);
+                        console.log(response);
                     })
             }
 

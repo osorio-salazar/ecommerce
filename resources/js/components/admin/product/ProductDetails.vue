@@ -5,7 +5,7 @@
                 <div class="w-full px-4 md:w-1/2 ">
                     <div class="sticky top-0 z-50 overflow-hidden ">
                         <div class="relative mb-6 lg:mb-10 lg:h-2/4 ">
-                            <img :src="'/storage/productos/'+ selectedImage" alt="Selected product image"
+                            <img :src="'/storage/productos/' + selectedImage" alt="Selected product image"
                                 class="object-cover w-full lg:h-full ">
                         </div>
                         <div class="flex-wrap  md:flex">
@@ -13,7 +13,7 @@
                                 class="w-1/2 p-2 sm:w-1/4">
                                 <a href="#"
                                     class="block border border-blue-300 dark:border-transparent dark:hover:border-blue-300 hover:border-blue-300">
-                                    <img :src="'/storage/productos/'+ image.trim()" alt="Product image"
+                                    <img :src="'/storage/productos/' + image.trim()" alt="Product image"
                                         @click="selectedImage = image.trim()" class="object-cover w-full lg:h-20">
                                 </a>
                             </div>
@@ -31,7 +31,7 @@
                             </p>
                             <p class="inline-block mb-8 text-4xl font-bold text-gray-700 dark:text-gray-400 ">
                                 <span>${{ product.price }}</span>
-                               
+
                             </p>
                             <h2 class="w-16 mr-6 text-xl font-bold dark:text-gray-400">Stock</h2>
                             <p class="text-green-600 dark:text-green-300 ">{{ product.stock }}</p>
@@ -55,17 +55,12 @@
                         </div> -->
                         <div class="flex flex-wrap items-center -mx-4 ">
                             <div class="w-full px-4 mb-4 lg:w-1/2 lg:mb-0">
-                                <button
+                                <button @click="addCart(product)"
                                     class="flex items-center justify-center w-full p-4 text-blue-500 border border-blue-500 rounded-md dark:text-gray-200 dark:border-blue-600 hover:bg-blue-600 hover:border-blue-600 hover:text-gray-100 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:border-blue-700 dark:hover:text-gray-300">
                                     Add to Cart
                                 </button>
                             </div>
-                            <div class="w-full px-4 mb-4 lg:mb-0 lg:w-1/2">
-                                <button
-                                    class="flex items-center justify-center w-full p-4 text-blue-500 border border-blue-500 rounded-md dark:text-gray-200 dark:border-blue-600 hover:bg-blue-600 hover:border-blue-600 hover:text-gray-100 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:border-blue-700 dark:hover:text-gray-300">
-                                    Add to wishlist
-                                </button>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -76,6 +71,7 @@
 
 <script>
 import axios from 'axios';
+import { eventBus } from '../../../eventBus';
 
 export default {
     props: ['id'],
@@ -84,20 +80,74 @@ export default {
             selectedImage: '',
             product: {
                 product_image: ''
-            }
+            },
+            user: '',
         };
     },
     mounted() {
         axios.get('/productos/' + this.id)
             .then(response => {
                 this.product = response.data;
-                console.log(this.product)
                 if (this.product.product_image) {
                     this.selectedImage = this.product.product_image.split(',')[0].trim();
                 }
 
             })
     },
-  
+    created() {
+
+        this.userAuth();
+
+    },
+
+    methods: {
+        addCart(product) {
+
+
+            const productDatas = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                product_image: product.product_image.split(',')[0].trim(),
+                cantidad: 1
+            }
+
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let productIndex = cart.findIndex(p => p.id === product.id);
+            console.log(cart);
+
+            if (productIndex !== -1) {
+                cart[productIndex].cantidad += 1;
+            } else {
+                product.cantidad = 1;
+                cart.push(productDatas);
+            }
+
+            if (this.user) {
+                axios.post('/cart', { productDatas })
+                    .then(response => {
+                        console.log(this.response);
+                    })
+            }
+
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            eventBus.emit('product-added');
+
+
+        },
+
+        userAuth() {
+        axios.get('/getAuth')
+            .then(response => {
+                this.user = response.data;
+            })
+    },
+
+    },
+   
+
+
 };
 </script>

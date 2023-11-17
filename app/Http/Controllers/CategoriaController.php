@@ -27,6 +27,7 @@ class CategoriaController extends Controller
             'category_image' => 'required|image',
         ]);
 
+
         $categoria = new Categoria([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -53,17 +54,31 @@ class CategoriaController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_image' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
 
         $categoria = Categoria::find($id);
-        $categoria->name = ('name');
-        $categoria->category_image = ('category_image');
-        $categoria->description = ('description');
-        dd($categoria);
+
+        if ($request->hasFile('category_image')) {
+
+            Storage::disk('public')->delete($categoria->category_image);
+
+            $imageName = $validatedData['name'] . '.' . $request->file('category_image')->getClientOriginalExtension();
+            $request->file('category_image')->storeAs('categorias', $imageName, 'public');
+
+            $categoria->category_image = 'categorias/' . $imageName;
+        }
 
 
+        $categoria->name = $validatedData['name'];
+        $categoria->description = $validatedData['description'];
 
-        $categoria->save();
+
+        $categoria->save();;
 
         return response()->json(['message' => 'Categoría actualizada con éxito'], 200);
     }

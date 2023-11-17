@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('user_id')->nullable()->index('user_id');
+            $table->json('products');
             $table->dateTime('purchase_date')->nullable();
             $table->string('status')->nullable();
         });

@@ -46,12 +46,6 @@
         </li>
       </router-link>
 
-      <router-link to="/categorias">
-        <li class="md:mx-4 md:my-0 my-6">
-          <a class="text-xl hover:text-blue-500">Categorias</a>
-        </li>
-      </router-link>
-
 
 
       <button @click="openCart" :disabled="route.path === '/purchase'">
