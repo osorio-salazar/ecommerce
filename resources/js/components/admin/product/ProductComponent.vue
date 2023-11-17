@@ -179,6 +179,7 @@ export default {
             selectedCategory: [],
             allProducts: [],
             user: '',
+            searchTerm: '',
 
         };
     },
@@ -195,6 +196,18 @@ export default {
         this.fetchProducts();
         this.getCategory();
         this.userAuth();
+    },
+    computed: {
+        filteredProducts() {
+            if (!this.searchTerm) {
+                return this.products;
+            }
+
+            return this.products.filter(product =>
+                product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+            );
+        }
+
     },
     methods: {
         fetchProducts() {

@@ -33,7 +33,7 @@ const routes = [
     component: CategoryComponent,
     props: true, // Esto permitirá pasar los parámetros como props
   },
-   // store
+  // store
 
   {
     path: '/dashboard',
@@ -96,7 +96,9 @@ const routes = [
     path: '/products',
     name: 'e-products',
     component: ProductComponent,
+    props: route => ({ categoryId: route.query.categoryId }), // Agrega esta línea
   },
+
   {
     path: '/products/:name',
     name: 'ProductDetails',

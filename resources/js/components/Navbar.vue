@@ -11,9 +11,11 @@
             d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </span>
-      <h1 class="text-xl">
-        Ecommerce
-      </h1>
+      <router-link to="/">
+        <h1 class="text-xl">
+          Ecommerce
+        </h1>
+      </router-link>
       <span class="absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl" @click="oopen">
         <div class="flex items-center justify-center w-10 h-10  rounded-full">
           <svg v-if="openNav" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"

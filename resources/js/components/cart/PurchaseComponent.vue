@@ -65,6 +65,12 @@
 </template>
   
 <script>
+// // SDK de Mercado Pago
+// import { MercadoPagoConfig } from 'MercadoPago';
+// // Agrega credenciales
+// const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
+
+
 export default {
     data() {
         return {
@@ -77,8 +83,10 @@ export default {
     },
     methods: {
         realizarCompra() {
-            // Lógica para realizar la compra
-            console.log('Compra realizada');
+            const mp = new MercadoPago({
+                client_id: 'TU_CLIENT_ID', // Tu Client ID de Mercado Pago
+                access_token: process.env.MP_ACCESS_TOKEN, // Tu Access Token de Mercado Pago
+            });
         },
     },
 };

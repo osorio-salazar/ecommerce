@@ -53,15 +53,20 @@ class CategoriaController extends Controller
 
     public function update(Request $request, $id)
     {
-
-
         $categoria = Categoria::find($id);
-        $categoria->name = ('name');
-        $categoria->category_image = ('category_image');
-        $categoria->description = ('description');
-        dd($categoria);
 
+        $categoria->name = $request->input('name');
+        $categoria->description = $request->input('description');
 
+        if ($request->hasFile('category_image')) {
+            $image = $request->file('category_image');
+
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+            $image->move(public_path('storage'), $imageName);
+
+            $categoria->category_image = $imageName;
+        }
 
         $categoria->save();
 

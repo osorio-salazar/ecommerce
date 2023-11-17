@@ -31,11 +31,12 @@ Route::get("/getInfoUser", [UserController::class, "getInfoUser"]);
 Route::get("/getAuth", [UserController::class, "getAuth"]);
 
 
-Route::get('/{any}', function () {
-    return view('layouts.app');
-})->where('any', '.*');
 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/{any}', function () {
+    return view('layouts.app');
+})->where('any', '.*');
