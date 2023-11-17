@@ -122,7 +122,7 @@ export default {
             })
 
             const response = await axios.get('/createPayment');
-            
+
 
             const preferenceId = response.data;
 
