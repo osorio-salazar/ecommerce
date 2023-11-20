@@ -19,7 +19,7 @@ import LoginComponent from '../js/components/auth/LoginComponent.vue'
 import CategoryComponent from '../js/components/CategoryComponent.vue'
 import Dashboard from '../js/components/admin/Dashboard.vue'
 import PurchaseComponent from '../js/components/cart/PurchaseComponent.vue'
-
+import shoppingComponent from '../js/components/dashboard/shoppingComponent.vue'
 
 const routes = [
   {
@@ -31,7 +31,7 @@ const routes = [
     path: '/categorias/:categoryId',
     name: 'categoriaComponent',
     component: CategoryComponent,
-    props: true, // Esto permitirá pasar los parámetros como props
+    props: true, 
   },
   // store
 
@@ -79,6 +79,13 @@ const routes = [
         component: CategoryListPage,
         meta: { requiresAuth: true, requiredRole: 1 },
       },
+      {
+        path: 'miscompras',
+        name: 'MisCompras',
+        component: shoppingComponent,
+        meta: {requiresAuth: true}
+        
+      }
     ]
   },
 
@@ -96,7 +103,7 @@ const routes = [
     path: '/products',
     name: 'e-products',
     component: ProductComponent,
-    props: route => ({ categoryId: route.query.categoryId }), // Agrega esta línea
+    props: route => ({ categoryId: route.query.categoryId }), 
   },
 
   {

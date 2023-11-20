@@ -32,12 +32,14 @@ Auth::routes();
 
 Route::get("/getInfoUser", [UserController::class, "getInfoUser"]);
 Route::get("/getAuth", [UserController::class, "getAuth"]);
+
 Route::get("/departments", [CitiesDepartmentsController::class, "getDepartments"]);
 Route::get("/mercadopago-key", [PaymentController::class, "getMercadoPagoKey"]);
-
-
-
 Route::get("/cities/{id}", [CitiesDepartmentsController::class, "getCities"]);
+
+Route::get("/paymentTest", [PaymentController::class,"paymentTest"]);
+
+
 Route::get('/{any}', function () {
     return view('layouts.app');
 })->where('any', '.*');
@@ -47,6 +49,3 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/{any}', function () {
-    return view('layouts.app');
-})->where('any', '.*');

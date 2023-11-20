@@ -49,7 +49,7 @@ class PaymentController extends Controller
 
 
         $preference->back_urls = array(
-            "success" => "http://ecommerce.test/?success",
+            "success" => "http://ecommerce.test/dashboard/miscompras/?success",
             "failure" => "http://www.tu-sitio/failure",
             "pending" => "http://www.tu-sitio/pending"
         );
@@ -70,7 +70,7 @@ class PaymentController extends Controller
 
     public function successPayment(Request $request)
 
-    
+
     {
         $user = Auth::user();
         $cart = Cart::where("user_id", $user->id)->first();
@@ -81,7 +81,7 @@ class PaymentController extends Controller
         $purchase->products = $cart->products;
         $purchase->status = 1;
         $purchase->purchase_date = date('Y-m-d');
-        $purchase->save(); 
+        $purchase->save();
 
 
         if ($cart) {
@@ -95,6 +95,14 @@ class PaymentController extends Controller
 
     public function paymentTest()
     {
+        $user = Auth::user();
+        $purchases = Purchase::where('user_id', $user->id)->get();
+
+        foreach ($purchases as $purchase) {
+            $purchase->products = json_decode($purchase->products);
+        }
+
+        return response()->json($purchase);
     }
 
 

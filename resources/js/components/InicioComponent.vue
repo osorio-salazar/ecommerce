@@ -51,13 +51,7 @@ export default {
   },
   created() {
     this.fetchCategorias();
-    if (this.$route.query.success !== undefined) {
-      this.paymentSucces();
-      console.log('dalepapa')
-    }
-    else {
-      console.log('no se pudo pa')
-    }
+   
   },
 
 
@@ -72,42 +66,12 @@ export default {
           console.error(error);
         });
     },
-    eliminarCategoria(id) {
-      if (confirm('¿Estás seguro de eliminar esta categoría?')) {
-        axios.delete(`/categorias/${id}`)
-          .then(response => {
-            this.fetchCategorias(); // Actualizar la lista de categorías después de la eliminación
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
-    },
 
     categorySelect(categoria) {
 
       const name = categoria.name
       eventBus.emit('selectCategory', name)
-
-
     },
-
-
-
-
-
-
-    paymentSucces() {
-      axios.get('/paymentSuccess')
-        .then(response => {
-          console.log()
-        })
-
-    }
-
-
-
-
   },
 };
 </script>
