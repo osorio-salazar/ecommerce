@@ -13,6 +13,14 @@ use App\Models\Purchase;
 
 class PaymentController extends Controller
 {
+    public function purchaseHistory() 
+    {
+        $user = Auth::user();
+        $purchases = Purchase::where('user_id', $user->id)->get();
+
+        return response()->json($purchases);
+    }
+
     public function createPayment(Request $request)
     {
 

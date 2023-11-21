@@ -28,6 +28,7 @@ Route::resource('cart', CartController::class);
 //  Route::put('productos/{}', 'ProductoController@update');
 Route::get("/createPayment", [PaymentController::class,"createPayment"]);
 Route::get("/paymentSuccess", [PaymentController::class, "successPayment"]);
+Route::get("/purchaseHistory", [PaymentController::class, "purchaseHistory"]);
 Auth::routes();
 
 Route::get("/getInfoUser", [UserController::class, "getInfoUser"]);

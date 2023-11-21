@@ -1,42 +1,57 @@
 <template>
     <div class="flex flex-col">
+        <h2 class="text-2xl font-semibold mb-4">Historial de Compras</h2>
+        <div class="mb-4">
+            <label for="search" class="sr-only">Buscar:</label>
+            <input type="text" id="search" v-model="searchTerm" @input="updateSearch" placeholder="Buscar productos..."
+                class="border border-gray-300 p-2 w-full" />
+        </div>
+    </div>
+    <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
                     <table class="min-w-full text-left text-sm font-light">
                         <thead class="border-b font-medium dark:border-neutral-500">
-                            <tr>
+                            <tr class="text-center">
                                 <th scope="col" class="px-6 py-4">Productos</th>
+                                <th scope="col" class="px-6 py-4">Cantidad</th>
                                 <th scope="col" class="px-6 py-4">Precio</th>
-                                <th scope="col" class="px-6 py-4">Fecha</th>
+                                <th scope="col" class="px-6 py-4">Fecha de Compra</th>
+                                <th scope="col" class="px-6 py-4">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b dark:border-neutral-500" v-for="purchases in purchases " :key="purchases.id">
-
+                            <tr class="text-center border-b dark:border-neutral-500" v-for="purchase in purchases" :key="purchase.id" v-show="purchase.isVisible">
                                 <td>
-                                    {{ purchases }}
+                                    <div v-for="product in purchase.products" :key="product.id">
+                                        <span class="font-semibold">{{ product.name }}</span>
+                                    </div>
                                 </td>
-                                <td class="whitespace-nowrap px-6 py-4 font-medium">
-                                    <!-- <div v-for="product in purchase.products" :key="product.id">
-                                        {{ purchase.product }}
-                                    </div> -->
+                                <td>
+                                    <div v-for="product in purchase.products" :key="product.id">
+                                        {{ product.cantidad }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div v-for="product in purchase.products" :key="product.id">
+                                        ${{ product.price }}
+                                    </div>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4">
-                                    <!-- <div v-for="product in purchase.products" :key="product.id">
-                                        {{ product.price }}
-                                    </div> -->
+                                    {{ purchase.purchase_date }}
                                 </td>
-                                <td class="whitespace-nowrap px-6 py-4"></td>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    {{ purchase.status === 1 ? 'Completado' : 'Pendiente' }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
     </div>
-</template> 
+</template>
 
 <script>
 import axios from 'axios';
@@ -45,74 +60,36 @@ export default {
     data() {
         return {
             purchases: [],
-
+            searchTerm: '',
         };
     },
-
-
     created() {
-        this.cartDelete();
-        this.shoppingProducts();
-
-
+        this.loadPurchaseHistory();
     },
-
     methods: {
-        paymentSucces() {
-            axios.get('/paymentSuccess')
-                .then(response => {
-                    console.log()
+        loadPurchaseHistory() {
+            axios.get('/purchaseHistory') // Ajusta la ruta según tu configuración
+                .then((response) => {
+                    this.purchases = response.data;
+                    this.purchases.forEach((purchase) => {
+                        purchase.isVisible = true; // Inicializa la propiedad isVisible
+                    });
                 })
-
+                .catch((error) => {
+                    console.error('Error al cargar el historial de compras:', error);
+                });
         },
+        updateSearch() {
+            const value = this.searchTerm.toLowerCase();
 
-        cartDelete(id) {
-            if (this.$route.query.success !== undefined) {
-                this.paymentSucces();
-                console.log('dalepapa')
-            }
-            else {
-                console.log('no se pudo pa')
-            }
+            this.purchases.forEach((purchase) => {
+                const isVisible = purchase.products.some((product) =>
+                    product.name.toLowerCase().includes(value)
+                );
+
+                purchase.isVisible = isVisible;
+            });
         },
-
-
-        shoppingProducts() {
-            axios.get('/paymentTest')
-                .then(response => {
-                    this.purchases = response.data
-                    console.log(this.purchases.id)
-
-                })
-                .catch(
-
-            )
-
-
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
     },
-
-
-}
-
-
-
-
-
-
-
-
+};
 </script>
