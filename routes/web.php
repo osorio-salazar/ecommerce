@@ -41,7 +41,7 @@ Route::get("/departments", [CitiesDepartmentsController::class, "getDepartments"
 Route::get("/mercadopago-key", [PaymentController::class, "getMercadoPagoKey"]);
 Route::get("/cities/{id}", [CitiesDepartmentsController::class, "getCities"]);
 
-Route::get("/paymentTest", [PaymentController::class, "paymentTest"]);
+Route::get("/paymentTest", [PaymentController::class, "salesHistory"]);
 
 Route::post(
     '/webhooks',

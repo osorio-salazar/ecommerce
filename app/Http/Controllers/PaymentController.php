@@ -13,7 +13,7 @@ use App\Models\Purchase;
 
 class PaymentController extends Controller
 {
-    public function purchaseHistory() 
+    public function purchaseHistory()
     {
         $user = Auth::user();
         $purchases = Purchase::where('user_id', $user->id)->get();
@@ -34,13 +34,6 @@ class PaymentController extends Controller
 
         $items = [];
 
-        // foreach(json_decode($cart->products, true) as $product) {
-        //     $item = new MercadoPago\Item;
-        //     $item->title = $product['name'];
-        //     $item->quantity = $product[''];
-
-
-        // }
         if (!$cart || empty(json_decode($cart->products, true))) {
             return response()->json('El carrito está vacío', 400);
         }
@@ -86,9 +79,11 @@ class PaymentController extends Controller
         } else {
             $purchase = new Purchase;
             $purchase->user_id = $user->id;
-            $purchase->products = $cart->products;
+            $purchase->products = json_decode($cart->products);
+            // $purchase->products = $cart->products;
             $purchase->status = 1;
             $purchase->purchase_date = date('Y-m-d');
+
             $purchase->save();
             if ($cart) {
                 $cart->products = json_encode([]);
@@ -98,23 +93,18 @@ class PaymentController extends Controller
         return response()->json('Carrito eliminado, y guardada la compra');
     }
 
-    public function paymentTest()
-    {
-        $user = Auth::user();
-        $purchases = Purchase::where('user_id', $user->id)->get();
-
-        foreach ($purchases as $purchase) {
-            $purchase->products = json_decode($purchase->products);
-        }
-
-        return response()->json($purchase);
-    }
-
 
     public function getMercadoPagoKey()
     {
         return response()->json([
             'public_key' => config('services.mercadopago.key'),
         ]);
+    }
+    public function salesHistory()
+    {
+
+        $purchases = Purchase::all();
+
+        return response()->json($purchases);
     }
 }
