@@ -111,7 +111,6 @@ export default {
   methods: {
     login(event) {
       event.preventDefault();
-
       axios.post('/login', {
         email: this.email,
         password: this.password
@@ -122,19 +121,10 @@ export default {
       })
         .then(response => {
           console.log(response.data);
+          this.fetchCart();
           this.$router.push('/');
           location.reload();
-
-          // let cart = JSON.parse(localStorage.getItem)
-          // if (cart.length > 0){
-          //   axios.post('/cart/', {$productDatas})
-
-          // }else {
-
-
-          // }
-
-        })
+         })
         .catch(error => {
           if (error.response && error.response.data && error.response.data.errors) {
             this.errorMessage = error.response.data.errors;
@@ -143,7 +133,17 @@ export default {
             this.errorMessage = 'Ha ocurrido un error al iniciar sesión. Por favor, inténtalo de nuevo.';
           }
         });
-    }
+    },
+    fetchCart() {
+      axios.get('/cart')
+        .then(response => {
+          localStorage.setItem('cart', JSON.stringify(response.data));
+
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
   }
 };
 </script>

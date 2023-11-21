@@ -68,9 +68,6 @@ class PaymentController extends Controller
 
         );
 
-
-
-
         $preference->save();
 
         return response()->json($preference->id);
@@ -83,21 +80,21 @@ class PaymentController extends Controller
         $user = Auth::user();
         $cart = Cart::where("user_id", $user->id)->first();
 
+        if (!$cart || empty(json_decode($cart->products, true))) {
 
-        $purchase = new Purchase;
-        $purchase->user_id = $user->id;
-        $purchase->products = $cart->products;
-        $purchase->status = 1;
-        $purchase->purchase_date = date('Y-m-d');
-        $purchase->save();
-
-
-        if ($cart) {
-            $cart->products = json_encode([]);
-            $cart->save();
+            return response()->json('No hay compra que guardar');
+        } else {
+            $purchase = new Purchase;
+            $purchase->user_id = $user->id;
+            $purchase->products = $cart->products;
+            $purchase->status = 1;
+            $purchase->purchase_date = date('Y-m-d');
+            $purchase->save();
+            if ($cart) {
+                $cart->products = json_encode([]);
+                $cart->save();
+            }
         }
-
-
         return response()->json('Carrito eliminado, y guardada la compra');
     }
 
