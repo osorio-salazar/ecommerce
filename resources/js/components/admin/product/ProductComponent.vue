@@ -76,7 +76,7 @@
                                     <header class="flex items-center justify-between p-4">
                                         <span class="text-sm text-gray-700"> {{ selectedCategory.length }} Seleccionados
                                         </span>
-                                        <button type="button" class="text-sm text-gray-900 underline underline-offset-4">
+                                        <button type="button" @click="clearCategorySelection" class="text-sm text-gray-900 underline underline-offset-4">
                                             Limpiar
                                         </button>
                                     </header>
@@ -96,55 +96,6 @@
                                     </ul>
                                 </div>
                             </details>
-
-                            <details
-                                class="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden">
-                                <summary
-                                    class="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 transition">
-                                    <span class="text-sm font-medium"> Precio </span>
-
-                                    <span class="transition group-open:-rotate-180">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                        </svg>
-                                    </span>
-                                </summary>
-
-                                <div class="border-t border-gray-200 bg-white">
-                                    <header class="flex items-center justify-between p-4">
-                                        <span class="text-sm text-gray-700">
-                                            El precio más alto es de 600 dólares
-                                        </span>
-
-                                        <button @click="clearSelection()" type="button"
-                                            class="text-sm text-gray-900 underline underline-offset-4">
-                                            Limpiar
-                                        </button>
-                                    </header>
-
-                                    <div class="border-t border-gray-200 p-4">
-                                        <div class="flex justify-between gap-4">
-                                            <label for="FilterPriceFrom" class="flex items-center gap-2">
-                                                <span class="text-sm text-gray-600">$</span>
-
-                                                <input type="number" id="FilterPriceFrom" placeholder="Desde"
-                                                    class="w-full rounded-md border-gray-200 shadow-sm sm:text-sm" />
-                                            </label>
-
-                                            <label for="FilterPriceTo" class="flex items-center gap-2">
-                                                <span class="text-sm text-gray-600">$</span>
-
-                                                <input type="number" id="FilterPriceTo" placeholder="Hasta"
-                                                    class="w-full rounded-md border-gray-200 shadow-sm sm:text-sm" />
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </details>
-
-
                         </div>
                     </div>
                 </div>
@@ -318,7 +269,10 @@ export default {
                     this.user = response.data;
                 })
         },
-
+        clearCategorySelection() {
+            this.selectedCategory = [];
+            this.categoryFilter();
+        },
     },
 };
 
