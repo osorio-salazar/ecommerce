@@ -8,6 +8,9 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CitiesDepartmentsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\WebhooksController;
+
+
 
 
 
@@ -26,7 +29,7 @@ Route::resource('productos', ProductoController::class);
 Route::resource('cart', CartController::class);
 
 //  Route::put('productos/{}', 'ProductoController@update');
-Route::get("/createPayment", [PaymentController::class,"createPayment"]);
+Route::get("/createPayment", [PaymentController::class, "createPayment"]);
 Route::get("/paymentSuccess", [PaymentController::class, "successPayment"]);
 Auth::routes();
 
@@ -37,7 +40,12 @@ Route::get("/departments", [CitiesDepartmentsController::class, "getDepartments"
 Route::get("/mercadopago-key", [PaymentController::class, "getMercadoPagoKey"]);
 Route::get("/cities/{id}", [CitiesDepartmentsController::class, "getCities"]);
 
-Route::get("/paymentTest", [PaymentController::class,"paymentTest"]);
+Route::get("/paymentTest", [PaymentController::class, "paymentTest"]);
+
+Route::post(
+    '/webhooks',
+    WebhooksController::class
+)->name('webhooks');
 
 
 Route::get('/{any}', function () {
@@ -48,4 +56,3 @@ Route::get('/{any}', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
-

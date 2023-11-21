@@ -68,10 +68,12 @@ export default {
     },
 
     categorySelect(categoria) {
-
       const name = categoria.name
       eventBus.emit('selectCategory', name)
     },
+
+
+    
   },
 };
 </script>
