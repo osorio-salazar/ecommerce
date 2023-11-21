@@ -97,9 +97,17 @@
   <div class="flex h-screen w-16 flex-col justify-between border-e bg-white">
     <div>
       <div class="inline-flex h-16 w-16 items-center justify-center">
-        <span class="grid h-10 w-10 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
-          L
-        </span>
+        <router-link to="/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="black"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+kali linux
+
+
+            <path d="M2 10 L12 2 L22 10"></path>
+          </svg>
+        </router-link>
       </div>
 
       <div class="border-t border-gray-100">
@@ -143,7 +151,8 @@
             </li>
 
             <li v-if="rolId == 1" title="Ventas">
-              <router-link to="/dashboard/ventas" class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+              <router-link to="/dashboard/ventas"
+                class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -152,28 +161,29 @@
               </router-link>
 
 
-                <span
-                  class="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">
-                  Invoices
-                </span>
-           
+              <span
+                class="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">
+                Invoices
+              </span>
+
             </li>
 
-            <li v-if="rolId !== 1" title="Mis compras" >
-            <router-link  :to="{ path: '/dashboard/miscompras' }" class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+            <li v-if="rolId !== 1" title="Mis compras">
+              <router-link :to="{ path: '/dashboard/miscompras' }"
+                class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-            </router-link>
+              </router-link>
 
 
-                <span
-                  class="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">
-                  Account
-                </span>
-           
+              <span
+                class="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100">
+                Account
+              </span>
+
             </li>
           </ul>
         </div>

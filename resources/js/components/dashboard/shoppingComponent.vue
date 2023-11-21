@@ -22,7 +22,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="text-center border-b dark:border-neutral-500" v-for="purchase in purchases" :key="purchase.id" v-show="purchase.isVisible">
+                            <tr class="text-center border-b dark:border-neutral-500" v-for="purchase in purchases"
+                                :key="purchase.id" v-show="purchase.isVisible">
                                 <td>
                                     <div v-for="product in purchase.products" :key="product.id">
                                         <span class="font-semibold">{{ product.name }}</span>
@@ -42,7 +43,7 @@
                                     {{ purchase.purchase_date }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4">
-                                    {{ purchase.status === 1 ? 'Completado' : 'Pendiente' }}
+                                    {{ purchase.status === 1 ? 'Pendiente' : 'Completado' }}
                                 </td>
                             </tr>
                         </tbody>
@@ -64,6 +65,7 @@ export default {
         };
     },
     created() {
+        this.cartDelete();
         this.loadPurchaseHistory();
     },
     methods: {
@@ -79,6 +81,15 @@ export default {
                     console.error('Error al cargar el historial de compras:', error);
                 });
         },
+        cartDelete() {
+            if (this.$route.query.success !== undefined) {
+                this.paymentSucces();
+                console.log('dalepapa')
+            }
+            else {
+                console.log('no se pudo pa')
+            }
+        },
         updateSearch() {
             const value = this.searchTerm.toLowerCase();
 
@@ -89,6 +100,13 @@ export default {
 
                 purchase.isVisible = isVisible;
             });
+        },
+
+        paymentSucces() {
+            axios.get('/paymentSuccess')
+                .then(response => {
+                })
+
         },
     },
 };

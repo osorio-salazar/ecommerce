@@ -23,13 +23,13 @@
                                             <span class="font-semibold text-2xl ml-5">{{ product.name }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-4">${{ product.price.toFixed(2) }}</td>
+                                    <td class="py-4">${{ product.price }}</td>
                                     <td class="py-4">
                                         <div class="flex items-center">
                                             <p>{{ product.cantidad }}</p>
                                         </div>
                                     </td>
-                                    <td class="py-4">${{ (product.price * product.cantidad).toFixed(2) }}</td>
+                                    <td class="py-4">${{ (product.price * product.cantidad) }}</td>
                                 </tr>
 
                             </tbody>
@@ -43,18 +43,10 @@
                             <span>Subtotal</span>
                             <span>${{ subtotal }}</span>
                         </div>
-                        <div class="flex justify-between mb-2">
-                            <span>Taxes</span>
-                            <span>$500</span>
-                        </div>
-                        <div class="flex justify-between mb-2">
-                            <span>Shipping</span>
-                            <span>$0.00</span>
-                        </div>
                         <hr class="my-2">
                         <div class="flex justify-between mb-2">
                             <span class="font-semibold">Total</span>
-                            <span class="font-semibold">$21.98</span>
+                            <span class="font-semibold">${{ subtotal }}</span>
                         </div>
 
 
